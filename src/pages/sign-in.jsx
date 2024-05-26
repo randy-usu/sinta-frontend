@@ -1,11 +1,9 @@
-import { Container } from "@mui/material";
-
-import { SignInForm } from "../features/users";
+import { FormContainer, SignInForm } from "../features/users";
 
 const SignIn = () => (
-  <Container component="main" maxWidth="xs" sx={{ pt: 8 }}>
+  <FormContainer>
     <SignInForm />
-  </Container>
+  </FormContainer>
 );
 
 export default SignIn;
