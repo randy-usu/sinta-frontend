@@ -9,7 +9,14 @@ import "@fontsource/roboto/700.css";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 import { PageContainer } from "./features/layout";
-import { Dashboard, SignIn, SignUp } from "./pages";
+import {
+  Dashboard,
+  MahasiswaBimbingan,
+  MahasiswaUjian,
+  SignIn,
+  SignUp,
+  UsulanSeminarProyek,
+} from "./pages";
 
 const theme = createTheme({
   palette: {
@@ -38,6 +45,18 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         Component: Dashboard,
+      },
+      {
+        path: "/mahasiswa-bimbingan",
+        Component: MahasiswaBimbingan,
+      },
+      {
+        path: "/mahasiswa-ujian",
+        Component: MahasiswaUjian,
+      },
+      {
+        path: "/usulan-seminar-proyek",
+        Component: UsulanSeminarProyek,
       },
     ],
   },
