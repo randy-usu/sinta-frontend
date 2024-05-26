@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-import { FontSizeInheritedTypography } from "../../../components";
+import { FontSizeInheritedTypography } from "../../../../ui";
 
 const ROWS = [
   {

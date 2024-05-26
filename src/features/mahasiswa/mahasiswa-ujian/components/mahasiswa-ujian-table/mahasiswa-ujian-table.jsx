@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 
-import { FontSizeInheritedTypography } from "../../../components";
+import { FontSizeInheritedTypography } from "../../../../ui";
 
 const ROWS = [
   {
