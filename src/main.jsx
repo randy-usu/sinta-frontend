@@ -7,7 +7,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
-import App from "./App.jsx";
+import SignIn from "./pages/sign-in";
 
 const theme = createTheme({
   palette: {
@@ -21,7 +21,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <App />
+      <SignIn />
     </ThemeProvider>
   </StrictMode>
 );
