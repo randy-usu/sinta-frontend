@@ -1,10 +1,5 @@
-import {
-  Box,
-  Button,
-  Container,
-  Link,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Container, Link, TextField } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 export const SignInForm = () => (
   <Box component="form" noValidate sx={{ textAlign: "center" }}>
@@ -34,7 +29,9 @@ export const SignInForm = () => (
       Masuk
     </Button>
     <Container sx={{ mt: 2 }}>
-      <Link href="#">Buat Akun</Link>
+      <Link component={RouterLink} to="/sign-up">
+        Buat Akun
+      </Link>
     </Container>
   </Box>
 );
