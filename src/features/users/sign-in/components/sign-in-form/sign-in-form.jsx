@@ -25,7 +25,13 @@ export const SignInForm = () => (
       id="password"
       autoComplete="current-password"
     />
-    <Button type="submit" variant="contained" sx={{ mt: 3 }}>
+    <Button
+      type="submit"
+      variant="contained"
+      sx={{ mt: 3 }}
+      component={RouterLink}
+      to="/dashboard"
+    >
       Masuk
     </Button>
     <Container sx={{ mt: 2 }}>

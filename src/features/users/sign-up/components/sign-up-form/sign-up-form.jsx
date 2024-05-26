@@ -1,4 +1,5 @@
 import { Box, Button, TextField } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 export const SignUpForm = () => (
   <Box component="form" noValidate sx={{ textAlign: "center" }}>
@@ -45,7 +46,13 @@ export const SignUpForm = () => (
       id="password-confirmation"
       autoComplete="new-password"
     />
-    <Button type="submit" variant="contained" sx={{ mt: 3 }}>
+    <Button
+      type="submit"
+      variant="contained"
+      sx={{ mt: 3 }}
+      component={RouterLink}
+      to="/dashboard"
+    >
       Daftar
     </Button>
   </Box>

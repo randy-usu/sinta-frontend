@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -8,8 +8,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
-import SignIn from "./pages/sign-in";
-import SignUp from "./pages/sign-up";
+import { PageContainer } from "./features/layout";
+import { Dashboard, SignIn, SignUp } from "./pages";
 
 const theme = createTheme({
   palette: {
@@ -21,12 +21,25 @@ const theme = createTheme({
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    index: true,
     Component: SignIn,
   },
   {
     path: "/sign-up",
     Component: SignUp,
+  },
+  {
+    element: (
+      <PageContainer>
+        <Outlet />
+      </PageContainer>
+    ),
+    children: [
+      {
+        path: "/dashboard",
+        Component: Dashboard,
+      },
+    ],
   },
 ]);
 
