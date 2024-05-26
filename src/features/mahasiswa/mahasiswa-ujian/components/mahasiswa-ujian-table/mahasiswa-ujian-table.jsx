@@ -8,7 +8,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
 
 import { FontSizeInheritedTypography } from "../../../components";
 
@@ -21,7 +20,7 @@ const ROWS = [
     dosenPembimbing2: "Suhi",
     dosenPenguji1: "Suha",
     dosenPenguji2: "Suhi",
-    tglTerakhirBimbingan: "30 Mar 2024",
+    tglUjian: "30 Mar 2024",
     tahapanTerakhir: "Seminar Proposal",
   },
   {
@@ -32,12 +31,12 @@ const ROWS = [
     dosenPembimbing2: "Suhi",
     dosenPenguji1: "Suha",
     dosenPenguji2: "Suhi",
-    tglTerakhirBimbingan: "26 Mar 2024",
+    tglUjian: "26 Mar 2024",
     tahapanTerakhir: "Seminar Proyek",
   },
 ];
 
-export const MahasiswaBimbinganTable = (props) => (
+export const MahasiswaUjianTable = (props) => (
   <TableContainer component={Paper} {...props}>
     <Table size="small">
       <TableHead>
@@ -47,8 +46,8 @@ export const MahasiswaBimbinganTable = (props) => (
           <TableCell>Nama</TableCell>
           <TableCell>Dosen Pembimbing</TableCell>
           <TableCell>Dosen Penguji</TableCell>
-          <TableCell>Tgl. Terakhir Bimbingan</TableCell>
           <TableCell>Tahapan Terakhir</TableCell>
+          <TableCell>Tgl. Ujian</TableCell>
           <TableCell>Aksi</TableCell>
         </TableRow>
       </TableHead>
@@ -79,15 +78,10 @@ export const MahasiswaBimbinganTable = (props) => (
                 {row.dosenPenguji2}
               </FontSizeInheritedTypography>
             </TableCell>
-            <TableCell>{row.tglTerakhirBimbingan}</TableCell>
             <TableCell>{row.tahapanTerakhir}</TableCell>
+            <TableCell>{row.tglUjian}</TableCell>
             <TableCell>
-              <Link
-                component={RouterLink}
-                to={`/mahasiswa-bimbingan/${row.nim}`}
-              >
-                Detail
-              </Link>
+              <Link>Input Nilai</Link>
             </TableCell>
           </TableRow>
         ))}
