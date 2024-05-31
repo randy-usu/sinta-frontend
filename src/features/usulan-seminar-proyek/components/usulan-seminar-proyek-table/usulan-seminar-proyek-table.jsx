@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
+import { PenilaianMahasiswaDialog } from "../../../ui";
 import { PemilihanTanggalWaktuSeminarProyekDialog } from "../pemilihan-tanggal-waktu-seminar-proyek-dialog";
 
 const ROWS = [
@@ -32,11 +33,14 @@ const ROWS = [
 ];
 
 export const UsulanSeminarProyekTable = (props) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [tanggalDialogOpen, setTanggalDialogOpen] = useState(false);
+  const [penilaianDialogOpen, setPenilaianDialogOpen] = useState(false);
 
-  const handleDialogClose = () => setDialogOpen(false);
+  const handleTanggalDialogClose = () => setTanggalDialogOpen(false);
+  const handlePenilaianDialogClose = () => setPenilaianDialogOpen(false);
 
-  const handlePilihTglClick = () => setDialogOpen(true);
+  const handlePilihTglClick = () => setTanggalDialogOpen(true);
+  const handlePenilaianClick = () => setPenilaianDialogOpen(true);
 
   return (
     <>
@@ -67,7 +71,9 @@ export const UsulanSeminarProyekTable = (props) => {
                 <TableCell>{row.tglPengajuan}</TableCell>
                 <TableCell>
                   {row.sudahSeminar ? (
-                    <Link component="button">Input Nilai</Link>
+                    <Link component="button" onClick={handlePenilaianClick}>
+                      Input Nilai
+                    </Link>
                   ) : (
                     <Link component="button" onClick={handlePilihTglClick}>
                       Pilih Tgl
@@ -80,8 +86,12 @@ export const UsulanSeminarProyekTable = (props) => {
         </Table>
       </TableContainer>
       <PemilihanTanggalWaktuSeminarProyekDialog
-        open={dialogOpen}
-        onClose={handleDialogClose}
+        open={tanggalDialogOpen}
+        onClose={handleTanggalDialogClose}
+      />
+      <PenilaianMahasiswaDialog
+        open={penilaianDialogOpen}
+        onClose={handlePenilaianDialogClose}
       />
     </>
   );
