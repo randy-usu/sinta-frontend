@@ -32,6 +32,13 @@ const ROWS = [
   },
 ];
 
+const PROPERTIES = [
+  ["NIM", 237038038],
+  ["Nama", "Rima Susanti"],
+  ["Tgl. Terakhir Bimbingan", "30 Mar 2024"],
+  ["Tgl. Pengajuan", "01 Apr 2024"],
+];
+
 export const UsulanSeminarProyekTable = (props) => {
   const [tanggalDialogOpen, setTanggalDialogOpen] = useState(false);
   const [penilaianDialogOpen, setPenilaianDialogOpen] = useState(false);
@@ -90,6 +97,7 @@ export const UsulanSeminarProyekTable = (props) => {
         onClose={handleTanggalDialogClose}
       />
       <PenilaianMahasiswaDialog
+        properties={PROPERTIES}
         open={penilaianDialogOpen}
         onClose={handlePenilaianDialogClose}
       />
