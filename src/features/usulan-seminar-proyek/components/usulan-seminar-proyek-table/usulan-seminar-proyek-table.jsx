@@ -8,6 +8,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useState } from "react";
+
+import { PemilihanTanggalWaktuSeminarProyekDialog } from "../pemilihan-tanggal-waktu-seminar-proyek-dialog";
 
 const ROWS = [
   {
@@ -28,42 +31,58 @@ const ROWS = [
   },
 ];
 
-export const UsulanSeminarProyekTable = (props) => (
-  <TableContainer component={Paper} {...props}>
-    <Table size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>No.</TableCell>
-          <TableCell>NIM</TableCell>
-          <TableCell>Nama</TableCell>
-          <TableCell>Tgl. Terakhir Bimbingan</TableCell>
-          <TableCell>Tgl. Pengajuan</TableCell>
-          <TableCell>Aksi</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {ROWS.map((row) => (
-          <TableRow
-            key={row.name}
-            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-          >
-            <TableCell component="th" scope="row">
-              {row.number}
-            </TableCell>
-            <TableCell>{row.nim}</TableCell>
-            <TableCell>{row.name}</TableCell>
-            <TableCell>{row.tglTerakhirBimbingan}</TableCell>
-            <TableCell>{row.tglPengajuan}</TableCell>
-            <TableCell>
-              {row.sudahSeminar ? (
-                <Link>Input Nilai</Link>
-              ) : (
-                <Link>Pilih Tgl</Link>
-              )}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+export const UsulanSeminarProyekTable = (props) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDialogClose = () => setDialogOpen(false);
+
+  const handlePilihTglClick = () => setDialogOpen(true);
+
+  return (
+    <>
+      <TableContainer component={Paper} {...props}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>No.</TableCell>
+              <TableCell>NIM</TableCell>
+              <TableCell>Nama</TableCell>
+              <TableCell>Tgl. Terakhir Bimbingan</TableCell>
+              <TableCell>Tgl. Pengajuan</TableCell>
+              <TableCell>Aksi</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {ROWS.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.number}
+                </TableCell>
+                <TableCell>{row.nim}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.tglTerakhirBimbingan}</TableCell>
+                <TableCell>{row.tglPengajuan}</TableCell>
+                <TableCell>
+                  {row.sudahSeminar ? (
+                    <Link component="button">Input Nilai</Link>
+                  ) : (
+                    <Link component="button" onClick={handlePilihTglClick}>
+                      Pilih Tgl
+                    </Link>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <PemilihanTanggalWaktuSeminarProyekDialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+      />
+    </>
+  );
+};

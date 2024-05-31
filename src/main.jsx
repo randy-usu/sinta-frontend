@@ -1,12 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/id";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import { PageContainer } from "./features/layout";
 import {
@@ -66,7 +69,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="id">
+        <RouterProvider router={router} />
+      </LocalizationProvider>
     </ThemeProvider>
   </StrictMode>
 );
