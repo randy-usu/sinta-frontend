@@ -15,6 +15,7 @@ import { PageContainer } from "./features/layout";
 import {
   Dashboard,
   MahasiswaBimbingan,
+  MahasiswaBimbinganDetail,
   MahasiswaUjian,
   SignIn,
   SignUp,
@@ -51,7 +52,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/mahasiswa-bimbingan",
-        Component: MahasiswaBimbingan,
+        children: [
+          {
+            index: true,
+            Component: MahasiswaBimbingan,
+          },
+          {
+            path: "*",
+            Component: MahasiswaBimbinganDetail,
+          },
+        ],
       },
       {
         path: "/mahasiswa-ujian",
