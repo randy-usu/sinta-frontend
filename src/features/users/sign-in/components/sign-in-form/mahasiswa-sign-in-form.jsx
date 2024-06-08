@@ -29,7 +29,7 @@ export const MahasiswaSignInForm = () => (
       variant="contained"
       sx={{ mt: 3 }}
       component={RouterLink}
-      to="dashboard"
+      to="sit-in"
     >
       Masuk
     </Button>

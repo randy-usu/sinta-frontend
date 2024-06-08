@@ -1,10 +1,4 @@
-import {
-  Logout as LogoutIcon,
-  People as PeopleIcon,
-  Person as PersonIcon,
-  SpaceDashboard as SpaceDashboardIcon,
-  UploadFile as UploadFileIcon,
-} from "@mui/icons-material";
+import { Logout as LogoutIcon } from "@mui/icons-material";
 import {
   Box,
   Drawer,
@@ -18,7 +12,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-export const DrawerNavigation = () => (
+export const DrawerNavigation = ({ navigations }) => (
   <Drawer
     sx={{
       width: 220,
@@ -32,24 +26,7 @@ export const DrawerNavigation = () => (
     anchor="left"
   >
     <List>
-      {[
-        { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
-        {
-          text: "Mahasiswa Bimbingan",
-          Icon: PeopleIcon,
-          to: "/dosen/mahasiswa-bimbingan",
-        },
-        {
-          text: "Mahasiswa Ujian",
-          Icon: PersonIcon,
-          to: "/dosen/mahasiswa-ujian",
-        },
-        {
-          text: "Usulan Seminar Proyek",
-          Icon: UploadFileIcon,
-          to: "/dosen/usulan-seminar-proyek",
-        },
-      ].map(({ text, Icon, to }) => (
+      {navigations.map(({ text, Icon, to }) => (
         <ListItem key={text} disablePadding>
           <ListItemButton LinkComponent={RouterLink} to={to}>
             <ListItemIcon>

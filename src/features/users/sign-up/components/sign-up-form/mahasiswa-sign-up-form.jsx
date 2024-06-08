@@ -50,7 +50,7 @@ export const MahasiswaSignUpForm = () => (
       variant="contained"
       sx={{ mt: 3 }}
       component={RouterLink}
-      to="/mahasiswa/dashboard"
+      to="/mahasiswa/sit-in"
     >
       Daftar
     </Button>

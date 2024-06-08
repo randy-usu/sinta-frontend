@@ -5,6 +5,15 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import {
+  Layers as LayersIcon,
+  Monitor as MonitorIcon,
+  People as PeopleIcon,
+  Person as PersonIcon,
+  Receipt as ReceiptIcon,
+  SpaceDashboard as SpaceDashboardIcon,
+  UploadFile as UploadFileIcon,
+} from "@mui/icons-material";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -26,6 +35,69 @@ import {
   SignIn as MahasiswaSignIn,
   SignUp as MahasiswaSignUp,
 } from "./pages/mahasiswa";
+
+const DOSEN_NAVS = [
+  { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
+  {
+    text: "Mahasiswa Bimbingan",
+    Icon: PeopleIcon,
+    to: "/dosen/mahasiswa-bimbingan",
+  },
+  {
+    text: "Mahasiswa Ujian",
+    Icon: PersonIcon,
+    to: "/dosen/mahasiswa-ujian",
+  },
+  {
+    text: "Usulan Seminar Proyek",
+    Icon: UploadFileIcon,
+    to: "/dosen/usulan-seminar-proyek",
+  },
+];
+
+const MHS_NAVS = [
+  { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/mahasiswa/dashboard" },
+  {
+    text: "Sit In",
+    Icon: MonitorIcon,
+    to: "/mahasiswa/sit-in",
+  },
+  {
+    text: "Seminar Literatur",
+    Icon: PeopleIcon,
+    to: "/mahasiswa/seminar-literatur",
+  },
+  {
+    text: "Pengajuan Judul",
+    Icon: UploadFileIcon,
+    to: "/mahasiswa/pengajuan-judul",
+  },
+  {
+    text: "Seminar Pra Proposal",
+    Icon: ReceiptIcon,
+    to: "/mahasiswa/seminar-pra-proposal",
+  },
+  {
+    text: "Seminar Proposal",
+    Icon: ReceiptIcon,
+    to: "/mahasiswa/seminar-proposal",
+  },
+  {
+    text: "Seminar Proyek",
+    Icon: LayersIcon,
+    to: "/mahasiswa/seminar-proyek",
+  },
+  {
+    text: "Seminar Hasil",
+    Icon: ReceiptIcon,
+    to: "/mahasiswa/seminar-hasil",
+  },
+  {
+    text: "Sidang Meja Hijau",
+    Icon: ReceiptIcon,
+    to: "/mahasiswa/sidang-meja-hijau",
+  },
+];
 
 const theme = createTheme({
   palette: {
@@ -51,6 +123,19 @@ const router = createBrowserRouter([
         path: "sign-up",
         Component: MahasiswaSignUp,
       },
+      {
+        element: (
+          <PageContainer navigations={MHS_NAVS}>
+            <Outlet />
+          </PageContainer>
+        ),
+        children: [
+          {
+            path: "sit-in",
+            element: <></>,
+          },
+        ],
+      },
     ],
   },
   {
@@ -66,7 +151,7 @@ const router = createBrowserRouter([
       },
       {
         element: (
-          <PageContainer>
+          <PageContainer navigations={DOSEN_NAVS}>
             <Outlet />
           </PageContainer>
         ),
