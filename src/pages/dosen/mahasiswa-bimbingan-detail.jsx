@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-import { InformasiUmum, RiwayatBimbingan } from "../features/mahasiswa";
+import { InformasiUmum, RiwayatBimbingan } from "../../features/mahasiswa";
 
 const MahasiswaBimbinganDetail = () => {
   return (

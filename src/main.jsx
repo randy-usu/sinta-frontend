@@ -17,6 +17,7 @@ import {
   MahasiswaBimbingan,
   MahasiswaBimbinganDetail,
   MahasiswaUjian,
+  Portal,
   SignIn,
   SignUp,
   UsulanSeminarProyek,
@@ -33,43 +34,52 @@ const theme = createTheme({
 const router = createBrowserRouter([
   {
     index: true,
-    Component: SignIn,
+    Component: Portal,
   },
   {
-    path: "/sign-up",
-    Component: SignUp,
-  },
-  {
-    element: (
-      <PageContainer>
-        <Outlet />
-      </PageContainer>
-    ),
+    path: "dosen",
     children: [
       {
-        path: "/dashboard",
-        Component: Dashboard,
+        index: true,
+        Component: SignIn,
       },
       {
-        path: "/mahasiswa-bimbingan",
+        path: "sign-up",
+        Component: SignUp,
+      },
+      {
+        element: (
+          <PageContainer>
+            <Outlet />
+          </PageContainer>
+        ),
         children: [
           {
-            index: true,
-            Component: MahasiswaBimbingan,
+            path: "dashboard",
+            Component: Dashboard,
           },
           {
-            path: "*",
-            Component: MahasiswaBimbinganDetail,
+            path: "mahasiswa-bimbingan",
+            children: [
+              {
+                index: true,
+                Component: MahasiswaBimbingan,
+              },
+              {
+                path: "*",
+                Component: MahasiswaBimbinganDetail,
+              },
+            ],
+          },
+          {
+            path: "mahasiswa-ujian",
+            Component: MahasiswaUjian,
+          },
+          {
+            path: "usulan-seminar-proyek",
+            Component: UsulanSeminarProyek,
           },
         ],
-      },
-      {
-        path: "/mahasiswa-ujian",
-        Component: MahasiswaUjian,
-      },
-      {
-        path: "/usulan-seminar-proyek",
-        Component: UsulanSeminarProyek,
       },
     ],
   },

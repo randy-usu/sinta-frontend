@@ -33,17 +33,21 @@ export const DrawerNavigation = () => (
   >
     <List>
       {[
-        { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dashboard" },
+        { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
         {
           text: "Mahasiswa Bimbingan",
           Icon: PeopleIcon,
-          to: "/mahasiswa-bimbingan",
+          to: "/dosen/mahasiswa-bimbingan",
         },
-        { text: "Mahasiswa Ujian", Icon: PersonIcon, to: "/mahasiswa-ujian" },
+        {
+          text: "Mahasiswa Ujian",
+          Icon: PersonIcon,
+          to: "/dosen/mahasiswa-ujian",
+        },
         {
           text: "Usulan Seminar Proyek",
           Icon: UploadFileIcon,
-          to: "/usulan-seminar-proyek",
+          to: "/dosen/usulan-seminar-proyek",
         },
       ].map(({ text, Icon, to }) => (
         <ListItem key={text} disablePadding>

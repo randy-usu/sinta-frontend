@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-import { MahasiswaUjianTable } from "../features/mahasiswa";
+import { MahasiswaUjianTable } from "../../features/mahasiswa";
 
 const MahasiswaUjian = () => {
   return (

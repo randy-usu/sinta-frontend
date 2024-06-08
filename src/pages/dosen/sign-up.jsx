@@ -1,4 +1,4 @@
-import { FormContainer, SignUpForm } from "../features/users";
+import { FormContainer, SignUpForm } from "../../features/users";
 
 const SignUp = () => (
   <FormContainer>

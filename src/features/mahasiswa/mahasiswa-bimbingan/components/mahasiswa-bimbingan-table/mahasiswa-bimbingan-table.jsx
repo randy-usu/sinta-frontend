@@ -15,7 +15,7 @@ import { FontSizeInheritedTypography } from "../../../../ui";
 const ROWS = [
   {
     number: 2,
-    nim: 237038038,
+    nim: "237038038",
     name: "Rima Susanti",
     dosenPembimbing1: "Suha",
     dosenPembimbing2: "Suhi",
@@ -26,7 +26,7 @@ const ROWS = [
   },
   {
     number: 1,
-    nim: 237038019,
+    nim: "237038019",
     name: "Roma Susanto",
     dosenPembimbing1: "Suha",
     dosenPembimbing2: "Suhi",
@@ -82,10 +82,7 @@ export const MahasiswaBimbinganTable = (props) => (
             <TableCell>{row.tglTerakhirBimbingan}</TableCell>
             <TableCell>{row.tahapanTerakhir}</TableCell>
             <TableCell>
-              <Link
-                component={RouterLink}
-                to={`/mahasiswa-bimbingan/${row.nim}`}
-              >
+              <Link component={RouterLink} to={row.nim}>
                 Detail
               </Link>
             </TableCell>

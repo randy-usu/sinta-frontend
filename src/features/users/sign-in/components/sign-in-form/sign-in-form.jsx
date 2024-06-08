@@ -30,12 +30,12 @@ export const SignInForm = () => (
       variant="contained"
       sx={{ mt: 3 }}
       component={RouterLink}
-      to="/dashboard"
+      to="dashboard"
     >
       Masuk
     </Button>
     <Container sx={{ mt: 2 }}>
-      <Link component={RouterLink} to="/sign-up">
+      <Link component={RouterLink} to="sign-up">
         Buat Akun
       </Link>
     </Container>

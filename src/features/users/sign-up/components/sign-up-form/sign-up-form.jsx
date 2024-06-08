@@ -51,7 +51,7 @@ export const SignUpForm = () => (
       variant="contained"
       sx={{ mt: 3 }}
       component={RouterLink}
-      to="/dashboard"
+      to="/dosen/dashboard"
     >
       Daftar
     </Button>
