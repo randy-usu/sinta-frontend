@@ -6,7 +6,12 @@ const Portal = () => (
   <Stack justifyContent="center" alignItems="center" sx={{ height: "100vh" }}>
     <Grid container spacing={2}>
       <Grid xs={6}>
-        <Button variant="contained" fullWidth>
+        <Button
+          variant="contained"
+          fullWidth
+          component={RouterLink}
+          to="mahasiswa"
+        >
           Mahasiswa
         </Button>
       </Grid>

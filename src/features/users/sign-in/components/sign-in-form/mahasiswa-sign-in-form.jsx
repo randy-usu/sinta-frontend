@@ -1,17 +1,16 @@
 import { Box, Button, Container, Link, TextField } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-export const SignInForm = () => (
+export const MahasiswaSignInForm = () => (
   <Box component="form" noValidate sx={{ textAlign: "center" }}>
     <TextField
       margin="dense"
       size="small"
       required
       fullWidth
-      id="email"
-      label="Alamat Surel"
-      name="email"
-      autoComplete="email"
+      id="nim"
+      label="NIM"
+      name="nim"
       autoFocus
     />
     <TextField

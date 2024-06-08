@@ -1,8 +1,8 @@
-import { FormContainer, SignUpForm } from "../../features/users";
+import { FormContainer, DosenSignUpForm } from "../../features/users";
 
 const SignUp = () => (
   <FormContainer>
-    <SignUpForm />
+    <DosenSignUpForm />
   </FormContainer>
 );
 

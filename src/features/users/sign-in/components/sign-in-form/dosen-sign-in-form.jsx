@@ -1,19 +1,8 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Container, Link, TextField } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-export const SignUpForm = () => (
+export const DosenSignInForm = () => (
   <Box component="form" noValidate sx={{ textAlign: "center" }}>
-    <TextField
-      margin="dense"
-      size="small"
-      required
-      fullWidth
-      id="name"
-      label="Nama Lengkap"
-      name="name"
-      autoComplete="name"
-      autoFocus
-    />
     <TextField
       margin="dense"
       size="small"
@@ -23,6 +12,7 @@ export const SignUpForm = () => (
       label="Alamat Surel"
       name="email"
       autoComplete="email"
+      autoFocus
     />
     <TextField
       margin="dense"
@@ -33,27 +23,21 @@ export const SignUpForm = () => (
       label="Kata Sandi"
       type="password"
       id="password"
-      autoComplete="new-password"
-    />
-    <TextField
-      margin="dense"
-      size="small"
-      required
-      fullWidth
-      name="password-confirmation"
-      label="Konfirmasi Kata Sandi"
-      type="password"
-      id="password-confirmation"
-      autoComplete="new-password"
+      autoComplete="current-password"
     />
     <Button
       type="submit"
       variant="contained"
       sx={{ mt: 3 }}
       component={RouterLink}
-      to="/dosen/dashboard"
+      to="dashboard"
     >
-      Daftar
+      Masuk
     </Button>
+    <Container sx={{ mt: 2 }}>
+      <Link component={RouterLink} to="sign-up">
+        Buat Akun
+      </Link>
+    </Container>
   </Box>
 );

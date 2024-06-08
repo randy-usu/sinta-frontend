@@ -1,1 +1,2 @@
-export { SignUpForm } from "./sign-up-form";
+export { DosenSignUpForm } from "./dosen-sign-up-form";
+export { MahasiswaSignUpForm } from "./mahasiswa-sign-up-form";

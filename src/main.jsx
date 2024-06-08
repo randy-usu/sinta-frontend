@@ -12,16 +12,20 @@ import "dayjs/locale/id";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import { PageContainer } from "./features/layout";
+import { Portal } from "./pages";
 import {
   Dashboard,
   MahasiswaBimbingan,
   MahasiswaBimbinganDetail,
   MahasiswaUjian,
-  Portal,
-  SignIn,
-  SignUp,
+  SignIn as DosenSignIn,
+  SignUp as DosenSignUp,
   UsulanSeminarProyek,
-} from "./pages";
+} from "./pages/dosen";
+import {
+  SignIn as MahasiswaSignIn,
+  SignUp as MahasiswaSignUp,
+} from "./pages/mahasiswa";
 
 const theme = createTheme({
   palette: {
@@ -37,15 +41,28 @@ const router = createBrowserRouter([
     Component: Portal,
   },
   {
+    path: "mahasiswa",
+    children: [
+      {
+        index: true,
+        Component: MahasiswaSignIn,
+      },
+      {
+        path: "sign-up",
+        Component: MahasiswaSignUp,
+      },
+    ],
+  },
+  {
     path: "dosen",
     children: [
       {
         index: true,
-        Component: SignIn,
+        Component: DosenSignIn,
       },
       {
         path: "sign-up",
-        Component: SignUp,
+        Component: DosenSignUp,
       },
       {
         element: (
