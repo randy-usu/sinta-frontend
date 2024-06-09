@@ -34,6 +34,7 @@ import {
 import {
   SignIn as MahasiswaSignIn,
   SignUp as MahasiswaSignUp,
+  SitIn,
 } from "./pages/mahasiswa";
 
 const DOSEN_NAVS = [
@@ -132,6 +133,10 @@ const router = createBrowserRouter([
         children: [
           {
             path: "sit-in",
+            Component: SitIn,
+          },
+          {
+            path: "*",
             element: <></>,
           },
         ],
