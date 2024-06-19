@@ -49,6 +49,7 @@ import {
   SignUp as KaprodiSignUp,
   Dashboard as KaprodiDashboard,
   SitIn as KaprodiSitIn,
+  SeminarLiteratur as KaprodiSeminarLiteratur,
 } from "./pages/kaprodi";
 
 const DOSEN_NAVS = [
@@ -304,6 +305,10 @@ const router = createBrowserRouter([
           {
             path: "sit-in",
             Component: KaprodiSitIn,
+          },
+          {
+            path: "seminar-literatur",
+            Component: KaprodiSeminarLiteratur,
           },
           {
             path: "*",
