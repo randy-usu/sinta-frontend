@@ -48,6 +48,7 @@ import {
   SignIn as KaprodiSignIn,
   SignUp as KaprodiSignUp,
   Dashboard as KaprodiDashboard,
+  SitIn as KaprodiSitIn,
 } from "./pages/kaprodi";
 
 const DOSEN_NAVS = [
@@ -115,6 +116,41 @@ const MHS_NAVS = [
 
 const KAPRODI_NAVS = [
   { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/kaprodi/dashboard" },
+  {
+    text: "Sit In",
+    Icon: MonitorIcon,
+    to: "/kaprodi/sit-in",
+  },
+  {
+    text: "Seminar Literatur",
+    Icon: PeopleIcon,
+    to: "/kaprodi/seminar-literatur",
+  },
+  {
+    text: "Pengajuan Judul",
+    Icon: UploadFileIcon,
+    to: "/kaprodi/pengajuan-judul",
+  },
+  {
+    text: "Seminar Pra Proposal",
+    Icon: ReceiptIcon,
+    to: "/kaprodi/seminar-pra-proposal",
+  },
+  {
+    text: "Seminar Proposal",
+    Icon: ReceiptIcon,
+    to: "/kaprodi/seminar-proposal",
+  },
+  {
+    text: "Seminar Hasil",
+    Icon: ReceiptIcon,
+    to: "/kaprodi/seminar-hasil",
+  },
+  {
+    text: "Sidang Meja Hijau",
+    Icon: ReceiptIcon,
+    to: "/kaprodi/sidang-meja-hijau",
+  },
 ];
 
 const theme = createTheme({
@@ -264,6 +300,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard",
             Component: KaprodiDashboard,
+          },
+          {
+            path: "sit-in",
+            Component: KaprodiSitIn,
           },
           {
             path: "*",
