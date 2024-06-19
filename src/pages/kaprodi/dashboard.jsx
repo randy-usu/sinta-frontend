@@ -1,15 +1,7 @@
-import {
-  ArrowDropDown as ArrowDropDownIcon,
-  Add as AddIcon,
-  CheckCircle as CheckCircleIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
+import { Search as SearchIcon } from "@mui/icons-material";
 import {
   Button,
-  ButtonGroup,
-  Chip,
   InputAdornment,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -21,21 +13,13 @@ import {
   Typography,
 } from "@mui/material";
 
-const SidangMejaHijau = () => (
+const Dashboard = () => (
   <>
-    <Stack direction="row">
-      <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
-        Sidang Meja Hijau
-      </Typography>
-      <Button variant="contained" endIcon={<AddIcon />}>
-        Bimbingan
-      </Button>
-      <Button variant="contained" endIcon={<AddIcon />} sx={{ ml: 3 }}>
-        Ajukan
-      </Button>
-    </Stack>
+    <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
+      Dashboard
+    </Typography>
     <Typography component="h2" variant="h5" sx={{ mt: 3 }}>
-      Bimbingan
+      Seminar Literatur
     </Typography>
     <TextField
       sx={{ mt: 3 }}
@@ -54,25 +38,29 @@ const SidangMejaHijau = () => (
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Tanggal</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Pembahasan</TableCell>
-            <TableCell>Catatan</TableCell>
+            <TableCell>No.</TableCell>
+            <TableCell>NIM</TableCell>
+            <TableCell>Nama</TableCell>
+            <TableCell>Tanggal Seminar</TableCell>
+            <TableCell>Aksi</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {[
             {
-              date: "Senin, 01 Jan 2024",
+              date: "01 Jan 2024",
+              nim: "237038020",
+              name: "Bob",
             },
           ].map((row, index) => (
             <TableRow key={index}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>{row.nim}</TableCell>
+              <TableCell>{row.name}</TableCell>
               <TableCell>{row.date}</TableCell>
               <TableCell>
-                <CheckCircleIcon fontSize="large" color="success" />
+                <Button variant="contained">Detail</Button>
               </TableCell>
-              <TableCell>Pembahasan</TableCell>
-              <TableCell>Catatan</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -87,7 +75,7 @@ const SidangMejaHijau = () => (
       onPageChange={() => {}}
     />
     <Typography component="h2" variant="h5">
-      Pengajuan Sidang
+      Seminar Pra Proposal
     </Typography>
     <TextField
       sx={{ mt: 3 }}
@@ -106,34 +94,28 @@ const SidangMejaHijau = () => (
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Judul</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Tanggal</TableCell>
-            <TableCell>Nama PIC</TableCell>
+            <TableCell>No.</TableCell>
+            <TableCell>NIM</TableCell>
+            <TableCell>Nama</TableCell>
+            <TableCell>Tanggal Seminar</TableCell>
             <TableCell>Aksi</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {[
             {
-              date: "Senin, 24 Feb 2024",
-              picName: "Elon Musk",
+              date: "01 Jan 2024",
+              nim: "237038020",
+              name: "Bob",
             },
           ].map((row, index) => (
             <TableRow key={index}>
-              <TableCell>Title Judul</TableCell>
-              <TableCell>
-                <Chip label="Sudah mengajukan" color="success" />
-              </TableCell>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>{row.nim}</TableCell>
+              <TableCell>{row.name}</TableCell>
               <TableCell>{row.date}</TableCell>
-              <TableCell>{row.picName}</TableCell>
               <TableCell>
-                <ButtonGroup variant="contained">
-                  <Button>Aksi</Button>
-                  <Button size="small">
-                    <ArrowDropDownIcon />
-                  </Button>
-                </ButtonGroup>
+                <Button variant="contained">Detail</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -151,4 +133,4 @@ const SidangMejaHijau = () => (
   </>
 );
 
-export default SidangMejaHijau;
+export default Dashboard;

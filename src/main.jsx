@@ -47,6 +47,7 @@ import {
 import {
   SignIn as KaprodiSignIn,
   SignUp as KaprodiSignUp,
+  Dashboard as KaprodiDashboard,
 } from "./pages/kaprodi";
 
 const DOSEN_NAVS = [
@@ -110,6 +111,10 @@ const MHS_NAVS = [
     Icon: ReceiptIcon,
     to: "/mahasiswa/sidang-meja-hijau",
   },
+];
+
+const KAPRODI_NAVS = [
+  { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/kaprodi/dashboard" },
 ];
 
 const theme = createTheme({
@@ -230,6 +235,10 @@ const router = createBrowserRouter([
             path: "usulan-seminar-proyek",
             Component: UsulanSeminarProyek,
           },
+          {
+            path: "*",
+            element: <></>,
+          },
         ],
       },
     ],
@@ -244,6 +253,23 @@ const router = createBrowserRouter([
       {
         path: "sign-up",
         Component: KaprodiSignUp,
+      },
+      {
+        element: (
+          <PageContainer navigations={KAPRODI_NAVS}>
+            <Outlet />
+          </PageContainer>
+        ),
+        children: [
+          {
+            path: "dashboard",
+            Component: KaprodiDashboard,
+          },
+          {
+            path: "*",
+            element: <></>,
+          },
+        ],
       },
     ],
   },
