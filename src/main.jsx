@@ -39,6 +39,7 @@ import {
   SitIn,
   SeminarPraProposal,
   SeminarProposal,
+  SeminarHasil,
   SeminarProyek,
 } from "./pages/mahasiswa";
 
@@ -159,6 +160,10 @@ const router = createBrowserRouter([
           {
             path: "seminar-proyek",
             Component: SeminarProyek,
+          },
+          {
+            path: "seminar-hasil",
+            Component: SeminarHasil,
           },
           {
             path: "*",
