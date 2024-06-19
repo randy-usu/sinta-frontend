@@ -1,3 +1,4 @@
+export { default as Dashboard } from "./dashboard";
 export { default as PengajuanJudul } from "./pengajuan-judul";
 export { default as SeminarLiteratur } from "./seminar-literatur";
 export { default as SeminarHasil } from "./seminar-hasil";
