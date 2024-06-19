@@ -44,6 +44,7 @@ import {
   SidangMejaHijau,
   Dashboard as MahasiswaDashboard,
 } from "./pages/mahasiswa";
+import { SignIn as KaprodiSignIn } from "./pages/kaprodi";
 
 const DOSEN_NAVS = [
   { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
@@ -227,6 +228,15 @@ const router = createBrowserRouter([
             Component: UsulanSeminarProyek,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: "kaprodi",
+    children: [
+      {
+        index: true,
+        Component: KaprodiSignIn,
       },
     ],
   },

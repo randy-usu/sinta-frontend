@@ -21,7 +21,12 @@ const Portal = () => (
         </Button>
       </Grid>
       <Grid xs={6}>
-        <Button variant="contained" fullWidth>
+        <Button
+          variant="contained"
+          fullWidth
+          component={RouterLink}
+          to="kaprodi"
+        >
           Kaprodi
         </Button>
       </Grid>
