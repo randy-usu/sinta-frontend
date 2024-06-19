@@ -1,6 +1,7 @@
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
   Button,
+  Chip,
   InputAdornment,
   Stack,
   Table,
@@ -14,10 +15,10 @@ import {
   Typography,
 } from "@mui/material";
 
-const SitIn = () => (
+const PengajuanJudul = () => (
   <>
     <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
-      Sit In
+      Pengajuan Judul
     </Typography>
     <TextField
       sx={{ mt: 3 }}
@@ -39,38 +40,33 @@ const SitIn = () => (
             <TableCell>No.</TableCell>
             <TableCell>NIM</TableCell>
             <TableCell>Nama</TableCell>
-            <TableCell>Tanggal</TableCell>
-            <TableCell>Waktu Masuk</TableCell>
-            <TableCell>Waktu Keluar</TableCell>
-            <TableCell>Durasi</TableCell>
-            <TableCell>Tanggal & Waktu ACC</TableCell>
+            <TableCell>Judul</TableCell>
+            <TableCell>Tanggal & Waktu Pengajuan</TableCell>
+            <TableCell>Status</TableCell>
             <TableCell>Aksi</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {[
             {
-              date: "24 Feb 2024",
-              waktuMasuk: "13:00",
-              waktuKeluar: "14:00",
-              durasi: "1 Jam",
+              date: "24 Feb 2024 13:29",
               nama: "Sudirman",
+              judul: "Optimisasi ...",
               nim: "237038019",
-              tglWaktuAcc: "27 Mei 2024 13:29",
             },
           ].map((row, index) => (
             <TableRow key={index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{row.nim}</TableCell>
               <TableCell>{row.nama}</TableCell>
+              <TableCell>{row.judul}</TableCell>
               <TableCell>{row.date}</TableCell>
-              <TableCell>{row.waktuMasuk}</TableCell>
-              <TableCell>{row.waktuKeluar}</TableCell>
-              <TableCell>{row.durasi}</TableCell>
-              <TableCell>{row.tglWaktuAcc}</TableCell>
+              <TableCell>
+                <Chip label="Diajukan" color="warning" />
+              </TableCell>
               <TableCell>
                 <Stack direction="row" spacing={1}>
-                  <Button variant="contained">ACC</Button>
+                  <Button variant="contained">Menilai</Button>
                   <Button variant="contained">Detail</Button>
                 </Stack>
               </TableCell>
@@ -90,4 +86,4 @@ const SitIn = () => (
   </>
 );
 
-export default SitIn;
+export default PengajuanJudul;
