@@ -39,6 +39,7 @@ import {
   SitIn,
   SeminarPraProposal,
   SeminarProposal,
+  SeminarProyek,
 } from "./pages/mahasiswa";
 
 const DOSEN_NAVS = [
@@ -154,6 +155,10 @@ const router = createBrowserRouter([
           {
             path: "seminar-proposal",
             Component: SeminarProposal,
+          },
+          {
+            path: "seminar-proyek",
+            Component: SeminarProyek,
           },
           {
             path: "*",
