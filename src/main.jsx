@@ -52,6 +52,7 @@ import {
   SeminarLiteratur as KaprodiSeminarLiteratur,
   PengajuanJudul as KaprodiPengajuanJudul,
   SeminarPraProposal as KaprodiSeminarPraProposal,
+  SeminarProposal as KaprodiSeminarProposal,
 } from "./pages/kaprodi";
 
 const DOSEN_NAVS = [
@@ -319,6 +320,10 @@ const router = createBrowserRouter([
           {
             path: "seminar-pra-proposal",
             Component: KaprodiSeminarPraProposal,
+          },
+          {
+            path: "seminar-proposal",
+            Component: KaprodiSeminarProposal,
           },
           {
             path: "*",
