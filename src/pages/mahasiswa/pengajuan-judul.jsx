@@ -20,11 +20,11 @@ import {
   Typography,
 } from "@mui/material";
 
-const SeminarLiteratur = () => (
+const PengajuanJudul = () => (
   <>
     <Stack direction="row">
       <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
-        Seminar Literatur
+        Pengajuan Judul
       </Typography>
       <Button variant="contained" endIcon={<AddIcon />}>
         Ajukan
@@ -47,7 +47,9 @@ const SeminarLiteratur = () => (
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>Judul</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell>Catatan</TableCell>
             <TableCell>Tanggal</TableCell>
             <TableCell>Nama PIC</TableCell>
             <TableCell>Aksi</TableCell>
@@ -61,9 +63,11 @@ const SeminarLiteratur = () => (
             },
           ].map((row, index) => (
             <TableRow key={index}>
+              <TableCell>Title Judul</TableCell>
               <TableCell>
                 <Chip label="Sudah mengajukan" color="success" />
               </TableCell>
+              <TableCell>-</TableCell>
               <TableCell>{row.date}</TableCell>
               <TableCell>{row.picName}</TableCell>
               <TableCell>
@@ -90,4 +94,4 @@ const SeminarLiteratur = () => (
   </>
 );
 
-export default SeminarLiteratur;
+export default PengajuanJudul;
