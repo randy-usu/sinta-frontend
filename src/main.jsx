@@ -56,6 +56,11 @@ import {
   SeminarHasil as KaprodiSeminarHasil,
   SidangMejaHijau as KaprodiSidangMejaHijau,
 } from "./pages/kaprodi";
+import {
+  SignIn as PegawaiSignIn,
+  SignUp as PegawaiSignUp,
+  Dashboard as PegawaiDashboard,
+} from "./pages/pegawai";
 
 const DOSEN_NAVS = [
   { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
@@ -156,6 +161,40 @@ const KAPRODI_NAVS = [
     text: "Sidang Meja Hijau",
     Icon: ReceiptIcon,
     to: "/kaprodi/sidang-meja-hijau",
+  },
+];
+
+const PEGAWAI_NAVS = [
+  { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/pegawai/dashboard" },
+  {
+    text: "Pengajuan Judul",
+    Icon: UploadFileIcon,
+    to: "/pegawai/pengajuan-judul",
+  },
+  {
+    text: "Seminar Pra Proposal",
+    Icon: ReceiptIcon,
+    to: "/pegawai/seminar-pra-proposal",
+  },
+  {
+    text: "Seminar Proposal",
+    Icon: ReceiptIcon,
+    to: "/pegawai/seminar-proposal",
+  },
+  {
+    text: "Seminar Proyek",
+    Icon: LayersIcon,
+    to: "/pegawai/seminar-proyek",
+  },
+  {
+    text: "Seminar Hasil",
+    Icon: ReceiptIcon,
+    to: "/pegawai/seminar-hasil",
+  },
+  {
+    text: "Sidang Meja Hijau",
+    Icon: ReceiptIcon,
+    to: "/pegawai/sidang-meja-hijau",
   },
 ];
 
@@ -335,6 +374,60 @@ const router = createBrowserRouter([
             path: "sidang-meja-hijau",
             Component: KaprodiSidangMejaHijau,
           },
+          {
+            path: "*",
+            element: <></>,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "pegawai",
+    children: [
+      {
+        index: true,
+        Component: PegawaiSignIn,
+      },
+      {
+        path: "sign-up",
+        Component: PegawaiSignUp,
+      },
+      {
+        element: (
+          <PageContainer navigations={PEGAWAI_NAVS}>
+            <Outlet />
+          </PageContainer>
+        ),
+        children: [
+          {
+            path: "dashboard",
+            Component: PegawaiDashboard,
+          },
+          // {
+          //   path: "seminar-proyek",
+          //   Component: PegawaiSeminarProyek,
+          // },
+          // {
+          //   path: "pengajuan-judul",
+          //   Component: PegawaiPengajuanJudul,
+          // },
+          // {
+          //   path: "seminar-pra-proposal",
+          //   Component: PegawaiSeminarPraProposal,
+          // },
+          // {
+          //   path: "seminar-proposal",
+          //   Component: PegawaiSeminarProposal,
+          // },
+          // {
+          //   path: "seminar-hasil",
+          //   Component: PegawaiSeminarHasil,
+          // },
+          // {
+          //   path: "sidang-meja-hijau",
+          //   Component: PegawaiSidangMejaHijau,
+          // },
           {
             path: "*",
             element: <></>,
