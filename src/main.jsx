@@ -59,6 +59,7 @@ import {
 import {
   SignIn as PegawaiSignIn,
   SignUp as PegawaiSignUp,
+  PengajuanJudul as PegawaiPengajuanJudul,
   Dashboard as PegawaiDashboard,
 } from "./pages/pegawai";
 
@@ -408,10 +409,10 @@ const router = createBrowserRouter([
           //   path: "seminar-proyek",
           //   Component: PegawaiSeminarProyek,
           // },
-          // {
-          //   path: "pengajuan-judul",
-          //   Component: PegawaiPengajuanJudul,
-          // },
+          {
+            path: "pengajuan-judul",
+            Component: PegawaiPengajuanJudul,
+          },
           // {
           //   path: "seminar-pra-proposal",
           //   Component: PegawaiSeminarPraProposal,
