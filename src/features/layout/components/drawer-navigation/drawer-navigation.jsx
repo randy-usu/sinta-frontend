@@ -1,4 +1,6 @@
-import { Logout as LogoutIcon } from "@mui/icons-material";
+import { 
+  Logout as LogoutIcon,
+} from "@mui/icons-material";
 import {
   Box,
   Drawer,
@@ -48,7 +50,7 @@ export const DrawerNavigation = ({ navigations }) => (
     >
       <Box sx={{ flexShrink: 1, minWidth: 0 }}>
         <Typography variant="subtitle1" noWrap>
-          Nama
+          Log Out
         </Typography>
       </Box>
       <IconButton component={RouterLink} to="/">

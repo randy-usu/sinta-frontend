@@ -1,13 +1,15 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { MahasiswaBimbinganTable } from "../../features/mahasiswa";
 
 const MahasiswaBimbingan = () => (
   <>
-    <Typography component="h1" variant="h4">
-      Mahasiswa Bimbingan
-    </Typography>
-    <MahasiswaBimbinganTable sx={{ mt: 3 }} />
+    <Box sx={{ flexGrow: 1, background: '#fafafa'}}>
+      <Typography component="h1" variant="h4">
+        Mahasiswa Bimbingan
+      </Typography>
+      <MahasiswaBimbinganTable sx={{ mt: 3 }} />
+    </Box>
   </>
 );
 

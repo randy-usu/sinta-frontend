@@ -1,4 +1,6 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Button, Link, Typography, styled } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { ArrowBackIosNew as ArrowIcon, } from '@mui/icons-material';
 
 const MAHASISWA = {
   nim: 237038038,
@@ -18,29 +20,34 @@ const MarginTopTypography = styled(Typography)(() => ({
 
 export const InformasiUmum = (props) => (
   <Box {...props}>
-    <Typography variant="h5">Informasi Umum</Typography>
-    <MarginTopTypography>Nama: {MAHASISWA.name}</MarginTopTypography>
-    <MarginTopTypography>NIM: {MAHASISWA.nim}</MarginTopTypography>
-    <MarginTopTypography>
+    <Link component={RouterLink} to="">
+      <Button autoFocus variant="contained" startIcon={<ArrowIcon />} color="info" size="small">
+        Back  
+      </Button>
+    </Link>
+    <MarginTopTypography variant="h5">Informasi Umum</MarginTopTypography>
+    <Typography>Nama: {MAHASISWA.name}</Typography>
+    <Typography>NIM: {MAHASISWA.nim}</Typography>
+    <Typography>
       Dosen Pembimbing 1: {MAHASISWA.dosenPembimbing1}
-    </MarginTopTypography>
-    <MarginTopTypography>
+    </Typography>
+    <Typography>
       Dosen Pembimbing 2: {MAHASISWA.dosenPembimbing2}
-    </MarginTopTypography>
-    <MarginTopTypography>
+    </Typography>
+    <Typography>
       Dosen Penguji 1: {MAHASISWA.dosenPenguji1}
-    </MarginTopTypography>
-    <MarginTopTypography>
+    </Typography>
+    <Typography>
       Dosen Penguji 2: {MAHASISWA.dosenPenguji2}
-    </MarginTopTypography>
-    <MarginTopTypography>
+    </Typography>
+    <Typography>
       Judul Tesis: {MAHASISWA.judulTesis}
-    </MarginTopTypography>
-    <MarginTopTypography>
+    </Typography>
+    <Typography>
       Tgl. Terakhir Bimbingan: {MAHASISWA.tglTerakhirBimbingan}
-    </MarginTopTypography>
-    <MarginTopTypography>
+    </Typography>
+    <Typography>
       Tahap Terakhir: {MAHASISWA.tahapanTerakhir}
-    </MarginTopTypography>
+    </Typography>
   </Box>
 );

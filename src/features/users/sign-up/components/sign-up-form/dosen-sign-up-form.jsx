@@ -57,6 +57,11 @@ export const DosenSignUpForm = () => (
       >
         Daftar
       </Button>
+      <Container sx={{ mt: 2 }}>
+        <Link component={RouterLink} to="..">
+          Login
+        </Link>
+      </Container>
     </Box>
   </>
 );

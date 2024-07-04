@@ -41,16 +41,16 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <Divider />
       <MenuList>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="#" >
+          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/" >
           Mahasiswa
           </MenuItem>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="portal-dosen">
+          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="#">
           Dosen
           </MenuItem>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="portal-kaprodi" >
+          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/portal-kaprodi" >
           Kepala Program Studi
           </MenuItem>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="portal-admin">
+          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/portal-admin">
           Admin/Pegawai
           </MenuItem>
         </MenuList>
@@ -116,14 +116,10 @@ function ResponsiveDrawer(props) {
       >
         <Toolbar />
         <Typography margin={5} variant='h4' fontWeight={'bold'}>
-          Mahasiswa
+          Dosen
         </Typography>
         <Typography paragraph align='justify' width={700} height={100}>
-        Sistem informasi tugas akhir untuk mahasiswa digunakan untuk mengatur setiap 
-        proses pengerjaan tugas akhir mahasiswa, di awali dengan pengajuan judul 
-        penelitian, seminar literatur, bimbingan dengan dosen pembimbing, seminar pra 
-        proposal, seminar proposal, seminar proyek, seminar hasil, dan tahap terakhir 
-        yaitu sidang meja hijau.
+        Sistem informasi tugas akhir untuk dosen digunakan untuk mengatur dan manajemen laporan bimbingan tugas akhir mahasiswa
         </Typography>
         <Typography margin={10}>
           <Fab
@@ -132,9 +128,9 @@ function ResponsiveDrawer(props) {
             color='primary'
             size="medium"
             component={RouterLink}
-            to="mahasiswa"
+            to="/dosen"
           >
-            Mahasiswa
+            Dosen
           </Fab>
         </Typography>
         <Typography paragraph variant='h6' width={450} height={100} marginTop={21} fontWeight={'bold'}>

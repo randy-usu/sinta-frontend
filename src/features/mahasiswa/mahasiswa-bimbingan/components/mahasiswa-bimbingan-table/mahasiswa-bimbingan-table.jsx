@@ -14,17 +14,6 @@ import { FontSizeInheritedTypography } from "../../../../ui";
 
 const ROWS = [
   {
-    number: 2,
-    nim: "237038038",
-    name: "Rima Susanti",
-    dosenPembimbing1: "Suha",
-    dosenPembimbing2: "Suhi",
-    dosenPenguji1: "Suha",
-    dosenPenguji2: "Suhi",
-    tglTerakhirBimbingan: "30 Mar 2024",
-    tahapanTerakhir: "Seminar Proposal",
-  },
-  {
     number: 1,
     nim: "237038019",
     name: "Roma Susanto",
@@ -34,6 +23,17 @@ const ROWS = [
     dosenPenguji2: "Suhi",
     tglTerakhirBimbingan: "26 Mar 2024",
     tahapanTerakhir: "Seminar Proyek",
+  },
+  {
+    number: 2,
+    nim: "237038038",
+    name: "Rima Susanti",
+    dosenPembimbing1: "Suha",
+    dosenPembimbing2: "Suhi",
+    dosenPenguji1: "Suha",
+    dosenPenguji2: "Suhi",
+    tglTerakhirBimbingan: "30 Mar 2024",
+    tahapanTerakhir: "Seminar Proposal",
   },
 ];
 
