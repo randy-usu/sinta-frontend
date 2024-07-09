@@ -1,5 +1,5 @@
 import { Button, Typography, styled } from '@mui/material';
-import React from 'react'; 
+import React, { useState } from 'react'; 
 
 const VisuallyHiddenInput = styled('input')`
   clip: 'rect(0 0 0 0)',
@@ -13,21 +13,19 @@ const VisuallyHiddenInput = styled('input')`
   width: 1,
 `;
 
-const Literatur = (props) => { 
-  
-  return ( 
-    <div> 
-        <Typography>{props.text}</Typography> 
-        <Button
-        component="label"
-        role="undefined"
-        variant="outlined"
-        tabIndex={-1}
-        >
-        <VisuallyHiddenInput type="file" />
-        </Button>
-    </div> 
-  ); 
-}; 
-
-export {Literatur};
+export default function Literatur() {
+  return (
+    <div>
+        <div>
+          <Button
+            component="label"
+            role="undefined"
+            variant="outlined"
+            tabIndex={-1}
+            >
+          <VisuallyHiddenInput type="file" />
+          </Button>
+        </div>
+    </div>
+  );
+}

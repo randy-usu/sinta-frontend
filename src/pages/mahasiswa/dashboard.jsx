@@ -17,7 +17,39 @@ import {
   Box
 } from "@mui/material";
 
-const Dashboard = () => {
+import { useState } from "react";
+import { useTableSearch } from "../../features/layout/components/tabel-mahasiswa/tabel-dashboard";
+
+const { Search } = Input;
+
+const data = [
+  {
+    id: "1",
+    agenda: "Seminar Praproposal",
+    tanggal: "20 Juni s.d. 30 Juni 2024",
+  },
+  {
+    id: "2",
+    agenda: "Seminar Hasil",
+    tanggal: "20 Juni s.d. 30 Juni 2024",
+  },
+];
+
+export default function Dashboard() {
+  const [searchVal, setSearchVal] = useState(null);
+
+  const { filteredData, loading } = useTableSearch({
+    searchVal,
+    retrieve: fetchUsers
+  });
+
+  const onDownload = () => {
+    const link = document.createElement("a");
+    link.download = `download.txt`;
+    link.href = "./download.txt";
+    link.click();
+  };
+
   return (
     <>
     <Box sx={{ flexGrow: 1, background: '#fafafa'}}>
@@ -26,52 +58,28 @@ const Dashboard = () => {
           <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
             Dashboard
           </Typography>
-          <TextField
-            sx={{ mt: 3 }}
-            placeholder="Search..."
-            size="small"
-            variant="standard"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+          <div>
+            <Search
+            onChange={(e) => setSearchVal(e.target.value)}
+            placeholder="Search"
+            enterButton
+            style={{
+              position: "sticky",
+              top: "0",
+              left: "0",
+              width: "200px",
+              marginTop: "2vh"
             }}
           />
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>No.</TableCell>
-                  <TableCell>Agenda</TableCell>
-                  <TableCell>Tanggal</TableCell>
-                  <TableCell>Lampiran</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {[
-                  {
-                    agenda: "Seminar Praproposal",
-                    tanggal: "20 Juni s.d. 30 Juni 2024",
-                  },
-                  {
-                    agenda: "Seminar Hasil",
-                    tanggal: "20 Juni s.d. 30 Juni 2024",
-                  },
-                ].map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{row.agenda}</TableCell>
-                    <TableCell>{row.tanggal}</TableCell>
-                    <TableCell>
-                      <Button variant="contained">Download File</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <br /> <br />
+          <Table
+            rowKey="name"
+            dataSource={filteredData}
+            columns={userColumns}
+            loading={loading}
+            pagination={false}
+          />
+          </div>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -85,6 +93,4 @@ const Dashboard = () => {
       </Box>
     </>
   );
-};
-
-export default Dashboard;
+}

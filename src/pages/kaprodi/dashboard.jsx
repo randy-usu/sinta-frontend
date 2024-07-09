@@ -1,6 +1,11 @@
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
   Button,
+  Container,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   InputAdornment,
   Table,
   TableBody,
@@ -11,10 +16,39 @@ import {
   TableRow,
   TextField,
   Typography,
+  styled,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import React, { useRef, useState } from "react";
 
-const Dashboard = () => (
-  <>
+const VisuallyHiddenInput = styled('input')`
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1px,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+`;
+
+export default function Dashboard() {
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
     <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
       Dashboard
     </Typography>
@@ -48,7 +82,7 @@ const Dashboard = () => (
         <TableBody>
           {[
             {
-              date: "01 Jan 2024",
+              date: "28 Mei 2024",
               nim: "237038020",
               name: "Bob",
             },
@@ -59,7 +93,29 @@ const Dashboard = () => (
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.date}</TableCell>
               <TableCell>
-                <Button variant="contained">Detail</Button>
+                <React.Fragment>
+                  <Button variant="contained" onClick={handleClickOpen}>Detail</Button>
+                  <Dialog
+                  fullScreen={fullScreen}
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="responsive-dialog-title"
+                  >
+                    <DialogTitle id="responsive-dialog-title">
+                      {"Detail Seminar Pra Proposal"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        <div>
+                          <Typography>Nama</Typography>
+                          <Typography>NIM</Typography>
+                          <Typography>Tanggal Seminar</Typography>
+                          <Typography>Judul</Typography>
+                        </div>
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+                </React.Fragment>
               </TableCell>
             </TableRow>
           ))}
@@ -131,6 +187,5 @@ const Dashboard = () => (
       onPageChange={() => {}}
     />
   </>
-);
-
-export default Dashboard;
+  )
+}

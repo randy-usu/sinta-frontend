@@ -37,7 +37,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useRef, useState } from "react";
-import { Literatur } from "../../features/layout/components/literatur/literatur";
+import Literatur from "../../features/layout/components/literatur/literatur";
 
 const VisuallyHiddenInput = styled('input')`
   clip: 'rect(0 0 0 0)',
@@ -64,9 +64,21 @@ export default function SeminarLiteratur() {
     setOpen(false);
   };
 
-  const [document, setDocument] = useState(0);
-  
+  const [document, setDocument] = useState(["1"]);
+  const [documentNames, setDocumentNames] = useState(['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']);
+  function addComponent() { 
+    if (documentNames.length > 0) { 
+      setDocument([...document, documentNames[0]]);
+      documentNames.splice(0, 1);
+    };
+  };
 
+  const handleDeleteInput = (index) => {
+    const newArray = [...document];
+    newArray.splice(index, 1);
+    setDocument(newArray);
+  };
+  
   const listItems = [
     "Edit", "Hapus"
   ];
@@ -91,6 +103,14 @@ export default function SeminarLiteratur() {
     setPopperOpen((prevOpen) => !prevOpen);
   };
 
+  function changeHover(e) {
+    e.target.style.background = '#9e9e9e';
+  };
+
+  function changeNormal(e) {
+    e.target.style.background = '#E0E0E0'
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1, background: '#fafafa' }}>
@@ -99,7 +119,7 @@ export default function SeminarLiteratur() {
             Seminar Literatur
           </Typography>
           <React.Fragment>
-            <Button sx={{ borderRadius: 5, color: 'black', background: '#E0E0E0' }} variant="contained" endIcon={<AddIcon />} onClick={handleClickOpen}>
+            <Button sx={{ borderRadius: 5, color: 'black', background: '#E0E0E0' }} variant="contained" endIcon={<AddIcon />} onMouseEnter={changeHover} onMouseLeave={changeNormal} onClick={handleClickOpen}>
               Ajukan
             </Button>
             <Dialog
@@ -123,24 +143,17 @@ export default function SeminarLiteratur() {
                 >
                   <VisuallyHiddenInput type="file" />
                 </Button> 
-                  {[...Array(document)].map((e,index)=>(
-                <div>
-                  <DialogContentText>
-                    Literatur {index+1}
-                  </DialogContentText>
-                  <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
-                  >
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                </div>
-              ))}
+                {document.map((item, i) => (
+                  <div>
+                    <DialogContentText>
+                      Literatur {i+1}
+                    </DialogContentText> 
+                    <Literatur text={item} /> 
+                  </div>
+                  ))}
               <div>
-                <Fab onClick={()=> setDocument(document+1)} size="small" color="info" aria-label="add"><AddIcon/></Fab>
-                <Fab onClick={()=> setDocument(document-1)} size="small" color="error" aria-label="add"><RemoveIcon/></Fab>
+                <Fab onClick={addComponent} size="small" color="info" aria-label="add"><AddIcon/></Fab>
+                <Fab onClick={handleDeleteInput} size="small" color="error" aria-label="add"><RemoveIcon/></Fab>
               </div>
                 </DialogContent>
               <DialogActions>

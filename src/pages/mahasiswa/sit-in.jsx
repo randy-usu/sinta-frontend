@@ -63,6 +63,14 @@ export default function SitIn() {
     setOpenClockOut(false);
   };
 
+  function changeHover(e) {
+    e.target.style.background = '#9e9e9e';
+  };
+
+  function changeNormal(e) {
+    e.target.style.background = '#E0E0E0'
+  };
+
   return (
     <>
     <Box sx={{ flexGrow: 1, background: '#fafafa' }}>
@@ -71,7 +79,7 @@ export default function SitIn() {
           Sit In
         </Typography>
         <React.Fragment>
-          <Button sx={{ borderRadius: 5, color: 'black', background: '#E0E0E0'}} variant="contained" endIcon={<AddIcon />} onClick={handleClickOpen}>
+          <Button sx={{ borderRadius: 5, color: 'black', bgcolor: '#E0E0E0'}} variant="contained" endIcon={<AddIcon />} onMouseEnter={changeHover} onMouseLeave={changeNormal} onClick={handleClickOpen}>
             Check In
           </Button>
           <Dialog

@@ -99,6 +99,14 @@ export default function PengajuanJudul() {
     setPopperOpen((prevOpen) => !prevOpen);
   };
 
+  function changeHover(e) {
+    e.target.style.background = '#9e9e9e';
+  };
+
+  function changeNormal(e) {
+    e.target.style.background = '#E0E0E0'
+  };
+
   return (
     <>
     <Box sx={{ flexGrow: 1, background: '#fafafa' }}>
@@ -107,7 +115,7 @@ export default function PengajuanJudul() {
           Pengajuan Judul
         </Typography>
         <React.Fragment>
-          <Button sx={{ borderRadius: 5, color: 'black', background: '#E0E0E0'}} variant="contained" onClick={handleClickOpen} endIcon={<AddIcon />}>
+          <Button sx={{ borderRadius: 5, color: 'black', background: '#E0E0E0'}} variant="contained" onClick={handleClickOpen} onMouseEnter={changeHover} onMouseLeave={changeNormal} endIcon={<AddIcon />}>
             Ajukan
           </Button>
         </React.Fragment>

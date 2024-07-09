@@ -60,7 +60,8 @@ export const UsulanSeminarProyekTable = (props) => {
               <TableCell>Nama</TableCell>
               <TableCell>Tgl. Terakhir Bimbingan</TableCell>
               <TableCell>Tgl. Pengajuan</TableCell>
-              <TableCell>Aksi</TableCell>
+              <TableCell>Tgl Seminar Proyek</TableCell>
+              <TableCell>Input Nilai</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,15 +78,14 @@ export const UsulanSeminarProyekTable = (props) => {
                 <TableCell>{row.tglTerakhirBimbingan}</TableCell>
                 <TableCell>{row.tglPengajuan}</TableCell>
                 <TableCell>
-                  {row.sudahSeminar ? (
-                    <Link component="button" onClick={handlePenilaianClick}>
-                      Input Nilai
-                    </Link>
-                  ) : (
-                    <Link component="button" onClick={handlePilihTglClick}>
-                      Pilih Tgl
-                    </Link>
-                  )}
+                  <Link component="button" onClick={handlePilihTglClick}>
+                    Pilih Tgl
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <Link component="button" onClick={handlePenilaianClick}>
+                    Input Nilai
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

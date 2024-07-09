@@ -93,6 +93,14 @@ export default function SeminarProyek() {
   const handleOpenItem = () => {
     setPopperOpen((prevOpen) => !prevOpen);
   };
+
+  function changeHover(e) {
+    e.target.style.background = '#9e9e9e';
+  };
+
+  function changeNormal(e) {
+    e.target.style.background = '#E0E0E0'
+  };
   
   return(
     <>
@@ -116,7 +124,7 @@ export default function SeminarProyek() {
           <DialogContent>
             <Box
               component="form"
-              sx={{ '& .MuiTextField-root': { m:1, width: '25ch' },
+              sx={{ '& .MuiTextField-root': { m:1, width: '50ch' },
               }}
               noValidate
               autoComplete="off"
@@ -149,7 +157,7 @@ export default function SeminarProyek() {
         </Dialog>
       </React.Fragment>
       <React.Fragment>
-        <Button variant="contained" endIcon={<AddIcon />} onClick={handleOpenProyek} sx={{ ml: 3, borderRadius: 5, color: 'black', background: '#E0E0E0' }}>
+        <Button variant="contained" endIcon={<AddIcon />} onClick={handleOpenProyek} sx={{ ml: 3, borderRadius: 5, color: 'black', background: '#E0E0E0' }} onMouseEnter={changeHover} onMouseLeave={changeNormal}>
           Ajukan
         </Button>
         <Dialog

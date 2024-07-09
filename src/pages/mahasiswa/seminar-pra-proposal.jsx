@@ -94,6 +94,14 @@ export default function SeminarPraProposal() {
     setPopperOpen((prevOpen) => !prevOpen);
   };
 
+  function changeHover(e) {
+    e.target.style.background = '#9e9e9e';
+  };
+
+  function changeNormal(e) {
+    e.target.style.background = '#E0E0E0'
+  };
+
   return (
     <>
     <Box sx={{ flexGrow: 1, background: '#fafafa' }}>
@@ -116,7 +124,7 @@ export default function SeminarPraProposal() {
           <DialogContent>
             <Box
               component="form"
-              sx={{ '& .MuiTextField-root': { m:1, width: '25ch' },
+              sx={{ '& .MuiTextField-root': { m:1, width: '50ch' },
               }}
               noValidate
               autoComplete="off"
@@ -149,7 +157,7 @@ export default function SeminarPraProposal() {
         </Dialog>
       </React.Fragment>
       <React.Fragment>
-        <Button variant="contained" endIcon={<AddIcon />} onClick={handleOpenPraProposal} sx={{ ml: 3, borderRadius: 5, color: 'black', background: '#E0E0E0' }}>
+        <Button variant="contained" endIcon={<AddIcon />} onClick={handleOpenPraProposal} sx={{ ml: 3, borderRadius: 5, color: 'black', background: '#E0E0E0' }} onMouseEnter={changeHover} onMouseLeave={changeNormal}>
           Ajukan
         </Button>
         <Dialog
