@@ -3,37 +3,38 @@ import {
   Add as AddIcon,
   Search as SearchIcon,
 } from "@mui/icons-material";
+
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from 'material-react-table';
+
 import {
   Box,
   Button,
   ButtonGroup,
-  Chip,
   ClickAwayListener,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
   Grow,
-  InputAdornment,
   MenuItem,
   MenuList,
+  Paper,
   Popper,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
   TextField,
   Typography,
   styled,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useRef, useState} from "react";
+import { useMemo, useState } from 'react';
+import React from "react";
+import { data } from "../../features/layout/components/tabel-mahasiswa/tabel-pengajuan-judul";
 
 const VisuallyHiddenInput = styled('input')`
   clip: 'rect(0 0 0 0)',
@@ -46,21 +47,6 @@ const VisuallyHiddenInput = styled('input')`
   whiteSpace: 'nowrap',
   width: 1,
 `;
-
-const science = [
-  {
-    value: 'ML',
-    label: 'Machine Learning', 
-  },
-  {
-    value: 'NS',
-    label: 'Network Security',
-  },
-  {
-    value: 'IoT',
-    label: 'Internet of Things',
-  },
-];
 
 export default function PengajuanJudul() {
   const [open, setOpen] = React.useState(false);
@@ -75,73 +61,180 @@ export default function PengajuanJudul() {
     setOpen(false);
   };
 
-  const listItems = [
-    "Edit", "Hapus"
-  ];
+  const [action, setAction] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  const arRef = useRef(null);
-  const [popperOpen, setPopperOpen] = useState(false);
-  const [selId, setSelId] = useState(1);
-
-  const handleItemPress = (e, index) => {
-    setSelId(index);
-    setPopperOpen(false);
+  const listItems = ['Edit', 'Hapus'];
+  
+  const handleOpenAction = () => {
+    window.alert(`You clicked ${listItems[selectedIndex]}`);
   };
 
-  const handleCloseItem = (e) => {
-    if (arRef.current && arRef.current.contains(e.target)) {
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setAction(false);
+  };
+
+  const handleToggle = () => {
+    setAction((prevOpen) => !prevOpen);
+  };
+
+  const handleCloseAction = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-    setPopperOpen(false);
+    setAction(false);
   };
 
-  const handleOpenItem = () => {
-    setPopperOpen((prevOpen) => !prevOpen);
-  };
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: 'judul',
+        header: 'Judul',
+        filterVariant: 'text',
+      },
+      {
+        accessorKey: 'status',
+        header: 'Status',
+      },
+      {
+        accessorKey: 'catatan',
+        header: 'Catatan',
+        filterVariant: 'text',
+      },
+      {
+        accessorKey: 'tanggal',
+        header: 'Tanggal',
+        filterVariant: 'text',
+      },
+      {
+        accessorKey: 'nama_pic',
+        header: 'Nama PIC',
+        filterVariant: 'text',
+      },
+      {
+        id: 'aksi',
+        header: 'Aksi',
+        Cell: () => (
+          <Box>
+            <div>
+              <ButtonGroup
+                variant="contained"
+                color="primary"
+                ref={anchorRef}>
+                <Button onClick={handleOpenAction}>{listItems[selectedIndex]}</Button>
+                <Button
+                  size="small"
+                  onClick={handleToggle}>
+                  <ArrowDropDownIcon />
+                </Button>
+              </ButtonGroup>
+              <Popper
+                sx={{
+                  zIndex: 1,
+                }}
+                transition
+                open={action}
+                anchorEl={anchorRef.current}>
+                {({ TransitionProps }) => (
+                <Grow
+                  {...TransitionProps}
+                >
+                  <div style={{backgroundColor: 'green', color: 'white'}}>
+                    <Paper>
+                    <ClickAwayListener onClickAway={handleCloseAction}>
+                      <MenuList id="split-button-menu">
+                        {listItems.map((item, i) => (
+                          <MenuItem
+                            key={item}
+                            disabled={i === 2}
+                            selected={i === selectedIndex}
+                            onClick={(e) => handleMenuItemClick(e, i)}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </ClickAwayListener>
+                    </Paper>
+                  </div>
+                </Grow>
+                )}
+              </Popper>
+            </div>
+          </Box>
+        ),
+      }
+    ],
+  );
+  
+  const science = [
+    {
+      value: 'ML',
+      label: 'Machine Learning', 
+    },
+    {
+      value: 'NS',
+      label: 'Network Security',
+    },
+    {
+      value: 'IoT',
+      label: 'Internet of Things',
+    },
+  ];
 
-  function changeHover(e) {
-    e.target.style.background = '#9e9e9e';
-  };
-
-  function changeNormal(e) {
-    e.target.style.background = '#E0E0E0'
-  };
+  const table = useMaterialReactTable({
+    columns,
+    data,
+    initialState: {
+      showColumnFilter: true, 
+      showGlobalFilter: true,
+    },
+    positionGlobalFilter: "left",
+  });
 
   return (
     <>
     <Box sx={{ flexGrow: 1, background: '#fafafa' }}>
-      <Stack direction="row">
-        <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
-          Pengajuan Judul
-        </Typography>
-        <React.Fragment>
-          <Button sx={{ borderRadius: 5, color: 'black', background: '#E0E0E0'}} variant="contained" onClick={handleClickOpen} onMouseEnter={changeHover} onMouseLeave={changeNormal} endIcon={<AddIcon />}>
-            Ajukan
-          </Button>
-        </React.Fragment>
-        <Dialog
-              fullScreen={fullScreen}
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="responsive-dialog-title"
-            >
-              <DialogTitle id="responsive-dialog-title">
-                {"Formulir Pengusulan Seminar Literatur"}
-              </DialogTitle>
-              <DialogContent>
-              <TextField
-                  margin="dense"
-                  size="small"
-                  required
-                  fullWidth
-                  id="judul"
-                  label="Judul"
-                  name="judul"
-                  autoFocus
-                />
-                <DialogContentText>
-                  Dokumen Pengajuan Judul
-                </DialogContentText>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Stack direction="row">
+              <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
+                Pengajuan Judul
+              </Typography>
+              <Button
+                variant="contained"
+                endIcon={<AddIcon />}
+                onClick={handleClickOpen}
+                sx={{ borderRadius: 5, color: 'black', marginBottom: 5 }}
+                color="inherit"
+                positionActionsColumn="last"
+              >
+                Ajukan
+              </Button>
+              <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+              >
+                <DialogTitle id="responsive-dialog-title" align="center">
+                  {"Formulir Pengusulan Seminar Literatur"}
+                </DialogTitle>
+                <DialogContent>
+                  <TextField
+                    margin="dense"
+                    size="small"
+                    required
+                    fullWidth
+                    id="judul"
+                    label="Judul"
+                    name="judul"
+                    autoFocus
+                  />
+                  <DialogContentText>
+                    Dokumen Pengajuan Judul
+                  </DialogContentText>
                 <Button
                   component="label"
                   role="undefined"
@@ -185,106 +278,12 @@ export default function PengajuanJudul() {
               </Button>
               </DialogActions>
             </Dialog>
-      </Stack>
-      <TextField
-        sx={{ mt: 3 }}
-        placeholder="Search..."
-        size="small"
-        variant="standard"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Judul</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Catatan</TableCell>
-              <TableCell>Tanggal</TableCell>
-              <TableCell>Nama PIC</TableCell>
-              <TableCell>Aksi</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {[
-              {
-                date: "Senin, 24 Feb 2024",
-                picName: "Elon Musk",
-              },
-            ].map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>Title Judul</TableCell>
-                <TableCell>
-                  <Chip label="Sudah mengajukan" color="success" />
-                </TableCell>
-                <TableCell>-</TableCell>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{row.picName}</TableCell>
-                <TableCell>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 10,
-                      }}>
-                        <ButtonGroup
-                        variant="contained"
-                        color="primary"
-                        ref={arRef}>
-                          <Button>{listItems[selId]}</Button>
-                          <Button
-                          size="small"
-                          onClick={handleOpenItem}>
-                            <ArrowDropDownIcon />
-                          </Button>
-                        </ButtonGroup>
-                        <Popper
-                        transition
-                        open={popperOpen}
-                        anchorEl={arRef.current}>
-                          {({ TransitionProps }) => (
-                            <Grow
-                            {...TransitionProps}
-                            >
-                              <div style={{backgroundColor: 'green', color: 'white'}}>
-                                <ClickAwayListener onClickAway={handleCloseItem}>
-                                  <MenuList id="split-button-menu">
-                                    {listItems.map((item, i) => (
-                                      <MenuItem
-                                      key={item}
-                                      onClick={(e) => handleItemPress(e, i)}>
-                                        {item}
-                                      </MenuItem>
-                                    ))}
-                                  </MenuList>
-                                </ClickAwayListener>
-                              </div>
-                            </Grow>
-                          )}
-                        </Popper>
-                    </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={13}
-        rowsPerPage={5}
-        page={0}
-        onPageChange={() => {}}
-      />
+            </Stack>
+              <div>
+                <MaterialReactTable table={table}></MaterialReactTable>
+              </div>
+            </Grid>
+        </Grid>
       </Box>
     </>
   );

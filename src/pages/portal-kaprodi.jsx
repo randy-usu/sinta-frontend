@@ -37,7 +37,7 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div>
+    <div style={{ background: '#f8f8f8' }}>
       <Toolbar />
       <Divider />
       <MenuList>

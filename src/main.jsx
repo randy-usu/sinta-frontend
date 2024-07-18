@@ -1,4 +1,4 @@
-import { Component, StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import "@fontsource/roboto/300.css";
@@ -14,7 +14,7 @@ import {
   SpaceDashboard as SpaceDashboardIcon,
   UploadFile as UploadFileIcon,
 } from "@mui/icons-material";
-import { Avatar, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Avatar, Button, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/id";
