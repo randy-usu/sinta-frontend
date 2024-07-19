@@ -1,94 +1,197 @@
 import {
   AccessTime as AccessTimeIcon,
   Add as AddIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
-import {
-  Button,
-  InputAdornment,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
+} from "@mui/icons-material"
 
-const SitIn = () => (
-  <>
-    <Stack direction="row">
-      <Typography component="h1" variant="h4" sx={{ flex: 1 }}>
-        Sit In
-      </Typography>
-      <Button variant="contained" endIcon={<AddIcon />}>
-        Check In
-      </Button>
-    </Stack>
-    <TextField
-      sx={{ mt: 3 }}
-      placeholder="Search..."
-      size="small"
-      variant="standard"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon />
-          </InputAdornment>
-        ),
-      }}
-    />
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Tanggal</TableCell>
-            <TableCell>Waktu Masuk</TableCell>
-            <TableCell>Waktu Keluar</TableCell>
-            <TableCell>Durasi</TableCell>
-            <TableCell>Aksi</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {[
-            {
-              date: "24 Feb 2024",
-              waktuMasuk: "13:00",
-              waktuKeluar: "14:00",
-              durasi: "1 Jam",
-            },
-          ].map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.waktuMasuk}</TableCell>
-              <TableCell>{row.waktuKeluar}</TableCell>
-              <TableCell>{row.durasi}</TableCell>
-              <TableCell>
-                <Button
-                  color="error"
-                  variant="contained"
-                  startIcon={<AccessTimeIcon />}
+import { 
+  MaterialReactTable, 
+  useMaterialReactTable,
+} from "material-react-table";
+
+import { useMemo, useState } from "react";
+import { data } from "../../features/layout/components/tabel-mahasiswa/tabel-sit-in";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack, styled, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+
+const VisuallyHiddenInput = styled('input')`
+clip: 'rect(0 0 0 0)',
+clipPath: 'inset(50%)',
+height: 1px,
+overflow: 'hidden',
+position: 'absolute',
+bottom: 0,
+left: 0,
+whiteSpace: 'nowrap',
+width: 1,
+`;
+
+export default function SitIn() {
+  const [clockOut, setClockOut] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleOpenClockOut = () => {
+    setClockOut(true);
+  }
+  const handleCloseClockOut = () => {
+    setClockOut(false);
+  }
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: 'tanggal',
+        header: 'Tanggal',
+        filterVariant: 'text',
+      },
+      {
+        accessorKey: 'waktu_masuk',
+        header: 'Waktu Masuk',
+        filterVariant: 'text',
+      },
+      {
+        accessorKey: 'waktu_keluar',
+        header: 'Waktu Keluar',
+        filterVariant: 'text',
+      },
+      {
+        accessorKey: 'durasi',
+        header: 'Durasi',
+        filterVariant: 'text',
+      },
+      {
+        id: 'aksi',
+        header: 'Aksi',
+        Cell: () => (
+          <Box>
+            <Tooltip title="Clock Out">
+              <Button
+                variant="contained"
+                onClick={handleOpenClockOut}
+                startIcon={<AccessTimeIcon />}
+                color='error'
                 >
                   Clock Out
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <TablePagination
-      rowsPerPageOptions={[5, 10, 25]}
-      component="div"
-      count={13}
-      rowsPerPage={5}
-      page={0}
-      onPageChange={() => {}}
-    />
-  </>
-);
+              </Button>
+            </Tooltip>
+            <Dialog
+              fullScreen={fullScreen}
+              open={clockOut}
+              onClose={handleCloseClockOut}
+              aria-labelledby="responsive-dialog-title"
+            >
+            <DialogTitle id="responsive-dialog-title" align='center'>
+              {"Formulir Keluar Sit-In"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Bukti/Laporan Sit In
+              </DialogContentText>
+              <Button
+                component="label"
+                role={undefined}
+                variant="outlined"
+                tabIndex={-1}
+              >
+                                
+                <VisuallyHiddenInput type="file" />
+              </Button>
+              <DialogContentText>
+                Swafoto Keluar
+              </DialogContentText>
+              <Button
+                component="label"
+                role={undefined}
+                variant="outlined"
+                tabIndex={-1}
+              >
+                                
+                <VisuallyHiddenInput type="file" />
+              </Button>
+            </DialogContent>
+            <DialogActions>
+              <Button autoFocus variant="contained" onClick={handleCloseClockOut}>
+                OK
+              </Button>
+            </DialogActions>
+            </Dialog>
+          </Box>
+        ),
+      },
+    ],
+  );
 
-export default SitIn;
+  const table = useMaterialReactTable({
+    columns,
+    data,
+    initialState: {
+      showColumnFilter: true, 
+      showGlobalFilter: true,
+    },
+    positionGlobalFilter: "left",
+  });
+
+  return (
+    <>
+      <Box sx={{ flexGrow: 1, background: '#fafafa'}}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction="row">
+          <Typography component="h1" variant="h4" sx={{ flex: 1, }}>
+              Sit In
+            </Typography>
+            <Button
+              variant="contained"
+              endIcon={<AddIcon />}
+              onClick={handleOpen}
+              sx={{ borderRadius: 5, color: 'black', marginBottom: 5 }}
+              color="inherit"
+              positionActionsColumn="last"
+            >
+              Check In
+            </Button>
+            <Dialog
+              fullScreen={fullScreen}
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="responsive-dialog-title">
+                <DialogTitle id="responsive-dialog-title" align='center'>
+                  {"Formulir Masuk Sit-In"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Swafoto Masuk
+                  </DialogContentText>
+                  <Button
+                    component="label"
+                    role={undefined}
+                    variant="outlined"
+                    tabIndex={-1}
+                  >
+                                      
+                  <VisuallyHiddenInput type="file" />
+                </Button>
+                </DialogContent>
+                <DialogActions>
+                  <Button autoFocus variant="contained" onClick={handleClose}>
+                    SIMPAN
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Stack>
+            <div>
+            <MaterialReactTable table={table}></MaterialReactTable>
+          </div>
+          </Grid>
+      </Grid>
+      </Box>
+    </>
+  );
+}

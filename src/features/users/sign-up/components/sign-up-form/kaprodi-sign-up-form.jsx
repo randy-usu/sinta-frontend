@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Link, TextField, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 export const KaprodiSignUpForm = () => (
@@ -57,6 +57,11 @@ export const KaprodiSignUpForm = () => (
       >
         Daftar
       </Button>
+      <Container sx={{ mt: 2 }}>
+        <Link component={RouterLink} to="..">
+          Login
+        </Link>
+      </Container>
     </Box>
   </>
 );

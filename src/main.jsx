@@ -14,14 +14,21 @@ import {
   SpaceDashboard as SpaceDashboardIcon,
   UploadFile as UploadFileIcon,
 } from "@mui/icons-material";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Avatar, Button, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/id";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-import { PageContainer } from "./features/layout";
-import { Portal } from "./pages";
+import { 
+  PageContainer
+} from "./features/layout";
+import { 
+  PortalMahasiswa,
+  PortalDosen,
+  PortalKaprodi,
+  PortalAdmin,
+} from "./pages";
 import {
   Dashboard,
   MahasiswaBimbingan,
@@ -211,8 +218,21 @@ const theme = createTheme({
 const router = createBrowserRouter([
   {
     index: true,
-    Component: Portal,
+    Component: PortalMahasiswa,
   },
+  {
+    path: "portal-dosen",
+    Component: PortalDosen,
+  },
+  {
+    path: "portal-kaprodi",
+    Component: PortalKaprodi,
+  },
+  {
+    path: "portal-admin",
+    Component: PortalAdmin,
+  },
+  
   {
     path: "mahasiswa",
     children: [

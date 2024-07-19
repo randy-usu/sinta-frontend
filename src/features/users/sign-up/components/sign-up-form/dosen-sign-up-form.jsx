@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Container, Button, Link, TextField, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 export const DosenSignUpForm = () => (
@@ -57,6 +57,11 @@ export const DosenSignUpForm = () => (
       >
         Daftar
       </Button>
+      <Container sx={{ mt: 2 }}>
+        <Link component={RouterLink} to="..">
+          Login
+        </Link>
+      </Container>
     </Box>
   </>
 );

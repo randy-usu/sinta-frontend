@@ -1,4 +1,6 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Button, Link, Paper, Table, TableCell, TableContainer, TableRow, Typography, styled } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { ArrowBackIosNew as ArrowIcon, } from '@mui/icons-material';
 
 const MAHASISWA = {
   nim: 237038038,
@@ -18,29 +20,90 @@ const MarginTopTypography = styled(Typography)(() => ({
 
 export const InformasiUmum = (props) => (
   <Box {...props}>
-    <Typography variant="h5">Informasi Umum</Typography>
-    <MarginTopTypography>Nama: {MAHASISWA.name}</MarginTopTypography>
-    <MarginTopTypography>NIM: {MAHASISWA.nim}</MarginTopTypography>
-    <MarginTopTypography>
-      Dosen Pembimbing 1: {MAHASISWA.dosenPembimbing1}
-    </MarginTopTypography>
-    <MarginTopTypography>
-      Dosen Pembimbing 2: {MAHASISWA.dosenPembimbing2}
-    </MarginTopTypography>
-    <MarginTopTypography>
-      Dosen Penguji 1: {MAHASISWA.dosenPenguji1}
-    </MarginTopTypography>
-    <MarginTopTypography>
-      Dosen Penguji 2: {MAHASISWA.dosenPenguji2}
-    </MarginTopTypography>
-    <MarginTopTypography>
-      Judul Tesis: {MAHASISWA.judulTesis}
-    </MarginTopTypography>
-    <MarginTopTypography>
-      Tgl. Terakhir Bimbingan: {MAHASISWA.tglTerakhirBimbingan}
-    </MarginTopTypography>
-    <MarginTopTypography>
-      Tahap Terakhir: {MAHASISWA.tahapanTerakhir}
-    </MarginTopTypography>
+    <Link component={RouterLink} to="">
+      <Button autoFocus variant="contained" startIcon={<ArrowIcon />} color="info" size="small">
+        Back  
+      </Button>
+    </Link>
+    <Typography component="h1" variant="h4"  marginTop={5}>
+      Rincian Mahasiswa Bimbingan
+    </Typography>
+    <MarginTopTypography variant="h5" sx={{ fontWeight: 'bold'}}>Informasi Umum</MarginTopTypography>
+      <TableContainer sx={{ maxHeight: 500, width: 700 }}>
+        <Table>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Nama
+            </TableCell>
+            <TableCell >
+              : {MAHASISWA.name}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              NIM
+            </TableCell>
+            <TableCell >
+              : {MAHASISWA.nim}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Pembimbing 1
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPembimbing1}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Pembimbing 2
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPembimbing2}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Penguji 1
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPenguji1}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Penguji 2
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPenguji2}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Judul Tesis
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.judulTesis}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Tanggal Terakhir bimbingan
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.tglTerakhirBimbingan}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Tahapan Terakhir
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.tahapanTerakhir}
+            </TableCell>
+          </TableRow>
+        </Table>
+      </TableContainer>
   </Box>
 );
