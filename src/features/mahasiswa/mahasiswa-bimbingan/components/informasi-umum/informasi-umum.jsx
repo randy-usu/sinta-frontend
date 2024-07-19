@@ -1,4 +1,4 @@
-import { Box, Button, Link, Typography, styled } from "@mui/material";
+import { Box, Button, Link, Paper, Table, TableCell, TableContainer, TableRow, Typography, styled } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { ArrowBackIosNew as ArrowIcon, } from '@mui/icons-material';
 
@@ -25,29 +25,85 @@ export const InformasiUmum = (props) => (
         Back  
       </Button>
     </Link>
-    <MarginTopTypography variant="h5">Informasi Umum</MarginTopTypography>
-    <Typography>Nama: {MAHASISWA.name}</Typography>
-    <Typography>NIM: {MAHASISWA.nim}</Typography>
-    <Typography>
-      Dosen Pembimbing 1: {MAHASISWA.dosenPembimbing1}
+    <Typography component="h1" variant="h4"  marginTop={5}>
+      Rincian Mahasiswa Bimbingan
     </Typography>
-    <Typography>
-      Dosen Pembimbing 2: {MAHASISWA.dosenPembimbing2}
-    </Typography>
-    <Typography>
-      Dosen Penguji 1: {MAHASISWA.dosenPenguji1}
-    </Typography>
-    <Typography>
-      Dosen Penguji 2: {MAHASISWA.dosenPenguji2}
-    </Typography>
-    <Typography>
-      Judul Tesis: {MAHASISWA.judulTesis}
-    </Typography>
-    <Typography>
-      Tgl. Terakhir Bimbingan: {MAHASISWA.tglTerakhirBimbingan}
-    </Typography>
-    <Typography>
-      Tahap Terakhir: {MAHASISWA.tahapanTerakhir}
-    </Typography>
+    <MarginTopTypography variant="h5" sx={{ fontWeight: 'bold'}}>Informasi Umum</MarginTopTypography>
+      <TableContainer sx={{ maxHeight: 500, width: 700 }}>
+        <Table>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Nama
+            </TableCell>
+            <TableCell >
+              : {MAHASISWA.name}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              NIM
+            </TableCell>
+            <TableCell >
+              : {MAHASISWA.nim}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Pembimbing 1
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPembimbing1}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Pembimbing 2
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPembimbing2}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Penguji 1
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPenguji1}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Dosen Penguji 2
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.dosenPenguji2}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Judul Tesis
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.judulTesis}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Tanggal Terakhir bimbingan
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.tglTerakhirBimbingan}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4} sx={{ fontWeight: 'bold'}}>
+              Tahapan Terakhir
+            </TableCell>
+            <TableCell>
+              : {MAHASISWA.tahapanTerakhir}
+            </TableCell>
+          </TableRow>
+        </Table>
+      </TableContainer>
   </Box>
 );
