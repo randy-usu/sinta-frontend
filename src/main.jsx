@@ -1,6 +1,3 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -14,62 +11,64 @@ import {
   SpaceDashboard as SpaceDashboardIcon,
   UploadFile as UploadFileIcon,
 } from "@mui/icons-material";
-import { Avatar, Button, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/id";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-import { 
-  PageContainer
-} from "./features/layout";
-import { 
-  PortalMahasiswa,
+import { PageContainer } from "./features/layout";
+import {
+  PortalAdmin,
   PortalDosen,
   PortalKaprodi,
-  PortalAdmin,
+  PortalMahasiswa,
 } from "./pages";
 import {
   Dashboard,
+  SignIn as DosenSignIn,
+  SignUp as DosenSignUp,
   MahasiswaBimbingan,
   MahasiswaBimbinganDetail,
   MahasiswaUjian,
-  SignIn as DosenSignIn,
-  SignUp as DosenSignUp,
   UsulanSeminarProyek,
 } from "./pages/dosen";
 import {
-  PengajuanJudul,
-  SeminarLiteratur,
-  SignIn as MahasiswaSignIn,
-  SignUp as MahasiswaSignUp,
-  SitIn,
-  SeminarPraProposal,
-  SeminarProposal,
-  SeminarHasil,
-  SeminarProyek,
-  SidangMejaHijau,
-  Dashboard as MahasiswaDashboard,
-} from "./pages/mahasiswa";
-import {
-  SignIn as KaprodiSignIn,
-  SignUp as KaprodiSignUp,
   Dashboard as KaprodiDashboard,
-  SitIn as KaprodiSitIn,
-  SeminarLiteratur as KaprodiSeminarLiteratur,
   PengajuanJudul as KaprodiPengajuanJudul,
+  SeminarHasil as KaprodiSeminarHasil,
+  SeminarLiteratur as KaprodiSeminarLiteratur,
   SeminarPraProposal as KaprodiSeminarPraProposal,
   SeminarProposal as KaprodiSeminarProposal,
-  SeminarHasil as KaprodiSeminarHasil,
   SidangMejaHijau as KaprodiSidangMejaHijau,
+  SignIn as KaprodiSignIn,
+  SignUp as KaprodiSignUp,
+  SitIn as KaprodiSitIn,
 } from "./pages/kaprodi";
 import {
-  SignIn as PegawaiSignIn,
-  SignUp as PegawaiSignUp,
+  Dashboard as MahasiswaDashboard,
+  SignIn as MahasiswaSignIn,
+  SignUp as MahasiswaSignUp,
+  PengajuanJudul,
+  SeminarHasil,
+  SeminarLiteratur,
+  SeminarPraProposal,
+  SeminarProposal,
+  SeminarProyek,
+  SidangMejaHijau,
+  SitIn,
+} from "./pages/mahasiswa";
+import {
+  Dashboard as PegawaiDashboard,
   PengajuanJudul as PegawaiPengajuanJudul,
   SeminarPraProposal as PegawaiSeminarPraProposal,
-  Dashboard as PegawaiDashboard,
+  SignIn as PegawaiSignIn,
+  SignUp as PegawaiSignUp,
 } from "./pages/pegawai";
+import { configure } from "axios-hooks";
+import Axios from "axios";
 
 const DOSEN_NAVS = [
   { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
@@ -232,7 +231,6 @@ const router = createBrowserRouter([
     path: "portal-admin",
     Component: PortalAdmin,
   },
-  
   {
     path: "mahasiswa",
     children: [
@@ -459,6 +457,15 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+const axios = Axios.create({
+  baseURL: "http://localhost:8000/api",
+});
+
+configure({
+  axios,
+  defaultOptions: { useCache: false, ssr: false },
+});
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

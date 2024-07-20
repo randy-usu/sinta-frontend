@@ -1,52 +1,73 @@
-import {
-  Box,
-  Button,
-  Container,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
+import { Box, Container, Link, TextField, Typography } from "@mui/material";
+import useAxios from "axios-hooks";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-export const MahasiswaSignInForm = () => (
-  <>
-    <Typography>Mahasiswa</Typography>
-    <Box component="form" noValidate sx={{ textAlign: "center" }}>
-      <TextField
-        margin="dense"
-        size="small"
-        required
-        fullWidth
-        id="nim"
-        label="NIM"
-        name="nim"
-        autoFocus
-      />
-      <TextField
-        margin="dense"
-        size="small"
-        required
-        fullWidth
-        name="password"
-        label="Kata Sandi"
-        type="password"
-        id="password"
-        autoComplete="current-password"
-      />
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{ mt: 3 }}
-        component={RouterLink}
-        to="dashboard"
+export const MahasiswaSignInForm = () => {
+  const navigate = useNavigate();
+  const [{ loading: authenticationLoading }, authenticateMahasiswa] = useAxios(
+    {
+      url: "mahasiswa/login",
+      method: "POST",
+    },
+    { manual: true }
+  );
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const authenticationResponse = await authenticateMahasiswa({
+      data: new FormData(event.target),
+    });
+    localStorage.setItem(
+      "mahasiswa_token",
+      authenticationResponse.data.data.token
+    );
+    navigate("dashboard");
+  };
+
+  return (
+    <>
+      <Typography>Mahasiswa</Typography>
+      <Box
+        component="form"
+        sx={{ textAlign: "center" }}
+        onSubmit={handleSubmit}
       >
-        Masuk
-      </Button>
-      <Container sx={{ mt: 2 }}>
-        <Link component={RouterLink} to="sign-up">
-          Buat Akun
-        </Link>
-      </Container>
-    </Box>
-  </>
-);
+        <TextField
+          margin="dense"
+          size="small"
+          required
+          fullWidth
+          id="nim"
+          label="NIM"
+          name="nim"
+          autoFocus
+        />
+        <TextField
+          margin="dense"
+          size="small"
+          required
+          fullWidth
+          name="password"
+          label="Kata Sandi"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+        />
+        <LoadingButton
+          loading={authenticationLoading}
+          type="submit"
+          variant="contained"
+          sx={{ mt: 3 }}
+        >
+          Masuk
+        </LoadingButton>
+        <Container sx={{ mt: 2 }}>
+          <Link component={RouterLink} to="sign-up">
+            Buat Akun
+          </Link>
+        </Container>
+      </Box>
+    </>
+  );
+};

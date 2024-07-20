@@ -1,18 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import MenuList from '@mui/material/List';
-import MenuItem from '@mui/material/ListItem';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Fab from '@mui/material/Fab';
-
-import { 
-  Link as RouterLink,
-} from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import Fab from "@mui/material/Fab";
+import MenuList from "@mui/material/List";
+import MenuItem from "@mui/material/ListItem";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -37,33 +34,49 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div style={{ background: '#f8f8f8' }}>
+    <div style={{ background: "#f8f8f8" }}>
       <Toolbar />
       <Divider />
       <MenuList>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/" >
+        <MenuItem
+          sx={{ color: "black", fontWeight: "bold" }}
+          component={RouterLink}
+          to="/"
+        >
           Mahasiswa
-          </MenuItem>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/portal-dosen">
+        </MenuItem>
+        <MenuItem
+          sx={{ color: "black", fontWeight: "bold" }}
+          component={RouterLink}
+          to="/portal-dosen"
+        >
           Dosen
-          </MenuItem>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/portal-kaprodi" >
+        </MenuItem>
+        <MenuItem
+          sx={{ color: "black", fontWeight: "bold" }}
+          component={RouterLink}
+          to="/portal-kaprodi"
+        >
           Kepala Program Studi
-          </MenuItem>
-          <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="#">
+        </MenuItem>
+        <MenuItem
+          sx={{ color: "black", fontWeight: "bold" }}
+          component={RouterLink}
+          to="#"
+        >
           Admin/Pegawai
-          </MenuItem>
-        </MenuList>
+        </MenuItem>
+      </MenuList>
       <Divider />
     </div>
   );
 
   // Remove this const when copying and pasting into your project.
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      
+    <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{
@@ -93,8 +106,11 @@ function ResponsiveDrawer(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -102,8 +118,11 @@ function ResponsiveDrawer(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
           open
         >
@@ -112,35 +131,45 @@ function ResponsiveDrawer(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
       >
         <Toolbar />
-        <Typography margin={5} variant='h4' fontWeight={'bold'}>
+        <Typography margin={5} variant="h4" fontWeight={"bold"}>
           Admin/Pegawai
         </Typography>
-        <Typography paragraph align='justify' width={700} height={100}>
-        Sistem informasi tugas akhir untuk admin digunakan untuk mengatur dan 
-        manajemen proses pemantauan terhadap proses pengerjaan tugas akhir 
-        mahasiswa, proses bimbingan mahasiswa dengan dosen, penginformasian 
-        dokumen administrasi terkait penjadwalan, SK dan undangan setiap tahapan 
-        seminar dan sidang.
+        <Typography paragraph align="justify" width={700} height={100}>
+          Sistem informasi tugas akhir untuk admin digunakan untuk mengatur dan
+          manajemen proses pemantauan terhadap proses pengerjaan tugas akhir
+          mahasiswa, proses bimbingan mahasiswa dengan dosen, penginformasian
+          dokumen administrasi terkait penjadwalan, SK dan undangan setiap
+          tahapan seminar dan sidang.
         </Typography>
         <Typography margin={10}>
           <Fab
             sx={{ width: 250, height: 40 }}
             variant="extended"
-            color='primary'
+            color="primary"
             size="medium"
             component={RouterLink}
-            to="/admin"
+            to="/pegawai"
           >
             Admin/Pegawai
           </Fab>
         </Typography>
-        <Typography paragraph variant='h6' width={450} height={100} marginTop={21} fontWeight={'bold'}>
-          Program Studi Magister Teknik Informatika
-          Fakultas Ilmu Komputer dan Teknologi Informasi
-          Universitas Sumatera Utara 
+        <Typography
+          paragraph
+          variant="h6"
+          width={450}
+          height={100}
+          marginTop={21}
+          fontWeight={"bold"}
+        >
+          Program Studi Magister Teknik Informatika Fakultas Ilmu Komputer dan
+          Teknologi Informasi Universitas Sumatera Utara
         </Typography>
       </Box>
     </Box>
