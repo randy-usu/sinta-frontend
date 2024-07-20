@@ -1,22 +1,22 @@
 import { 
-  Logout as LogoutIcon,
-} from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-
-export const DrawerNavigation = ({ navigations }) => (
-  <Drawer
+    Logout as LogoutIcon,
+  } from "@mui/icons-material";
+  import {
+    Avatar,
+    Box,
+    Drawer,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Typography,
+  } from "@mui/material";
+  import { Link as RouterLink } from "react-router-dom";
+  
+  export const DrawerNavigationMahasiswa = ( navigationsMahasiswa ) => (
+    <Drawer
     sx={{
       width: 220,
       flexShrink: 0,
@@ -29,11 +29,11 @@ export const DrawerNavigation = ({ navigations }) => (
     anchor="left"
   >
     <Box>
-      <Avatar sx={{ bgcolor: '#2196F3', width: 100, height: 100, marginLeft: 7.5, marginTop: 2 }}>N</Avatar>
-      <Typography align="center">Nama</Typography>
+      <Avatar sx={{ bgcolor: '#2196F3', width: 100, height: 100 }}>NM</Avatar>
+      <Typography>Nama Mahasiswa</Typography>
     </Box>
     <List>
-      {navigations.map(({ text, Icon, to }) => (
+      {navigationsMahasiswa.map(({ text, Icon, to }) => (
         <ListItem key={text} disablePadding>
           <ListItemButton LinkComponent={RouterLink} to={to}>
             <ListItemIcon>
@@ -63,4 +63,4 @@ export const DrawerNavigation = ({ navigations }) => (
       </IconButton>
     </Box>
   </Drawer>
-);
+  );

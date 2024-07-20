@@ -10,6 +10,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
 
+import backgroundImage from "./image/bg2.jpeg";
+
 import { 
   Link as RouterLink,
 } from "react-router-dom";
@@ -62,8 +64,15 @@ function ResponsiveDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
+    <div 
+      style={{ 
+        backgroundImage: `url(${backgroundImage})`, 
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        color: 'white', 
+    }}>
     <Box sx={{ display: 'flex' }}>
-      
       <AppBar
         position="fixed"
         sx={{
@@ -144,6 +153,7 @@ function ResponsiveDrawer(props) {
         </Typography>
       </Box>
     </Box>
+    </div>
   );
 }
 

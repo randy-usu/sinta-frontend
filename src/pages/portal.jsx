@@ -10,6 +10,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
 
+import backgroundImage from "./image/bg1.jpeg";
+
 import { 
   Link as RouterLink,
 } from "react-router-dom";
@@ -40,7 +42,7 @@ function ResponsiveDrawer(props) {
     <div style={{ background: '#f8f8f8' }}>
       <Toolbar />
       <Divider />
-      <MenuList>
+        <MenuList>
           <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="#" >
           Mahasiswa
           </MenuItem>
@@ -62,8 +64,16 @@ function ResponsiveDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex',  backgroundImage: "public\bg2.jpeg"}}>
-      
+    <div 
+      style={{ 
+        backgroundImage: `url(${backgroundImage})`, 
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        color: 'white', 
+    }}
+     >
+    <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"
         sx={{
@@ -145,6 +155,7 @@ function ResponsiveDrawer(props) {
         </Typography>
       </Box>
     </Box>
+    </div>
   );
 }
 

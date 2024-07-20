@@ -6,6 +6,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import {
+  IcecreamOutlined,
   Layers as LayersIcon,
   Monitor as MonitorIcon,
   People as PeopleIcon,
@@ -14,14 +15,15 @@ import {
   SpaceDashboard as SpaceDashboardIcon,
   UploadFile as UploadFileIcon,
 } from "@mui/icons-material";
-import { Avatar, Button, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Avatar, Box, Button, createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/id";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import { 
-  PageContainer
+  PageContainer,
+  PageContainerMahasiswa
 } from "./features/layout";
 import { 
   PortalMahasiswa,
@@ -63,6 +65,7 @@ import {
   SeminarHasil as KaprodiSeminarHasil,
   SidangMejaHijau as KaprodiSidangMejaHijau,
 } from "./pages/kaprodi";
+import { DrawerNavigationMahasiswa } from "./features/layout/components";
 
 const DOSEN_NAVS = [
   { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
@@ -80,6 +83,13 @@ const DOSEN_NAVS = [
     text: "Usulan Seminar Proyek",
     Icon: UploadFileIcon,
     to: "/dosen/usulan-seminar-proyek",
+  },
+];
+
+const avatar = [
+  {
+    avatar: "<Avatar>NM</Avatar>",
+    text: "Nama Mahasiswa",
   },
 ];
 
@@ -205,9 +215,11 @@ const router = createBrowserRouter([
       },
       {
         element: (
+          <>
           <PageContainer navigations={MHS_NAVS}>
-            <Outlet />
+              <Outlet />
           </PageContainer>
+          </>
         ),
         children: [
           {
