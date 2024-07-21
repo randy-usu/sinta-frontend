@@ -2,6 +2,7 @@ import {
   AccessTime as AccessTimeIcon,
   Add as AddIcon,
 } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
@@ -12,7 +13,7 @@ import {
   DialogTitle,
   Grid,
   Stack,
-  styled,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -23,20 +24,58 @@ import {
 } from "material-react-table";
 import { useState } from "react";
 
-const VisuallyHiddenInput = styled("input")`
-clip: 'rect(0 0 0 0)',
-clipPath: 'inset(50%)',
-height: 1px,
-overflow: 'hidden',
-position: 'absolute',
-bottom: 0,
-left: 0,
-whiteSpace: 'nowrap',
-width: 1,
-`;
+const CheckInDialog = ({ open, onClose, onSubmit }) => {
+  const [{ loading: checkingInMahasiswa }, checkInMahasiswa] = useAxios(
+    {
+      url: "mahasiswa/sitin/checkin",
+      method: "POST",
+    },
+    { manual: true }
+  );
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        component: "form",
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          await checkInMahasiswa({ data: formData });
+          onSubmit();
+        },
+      }}
+    >
+      <DialogTitle align="center">Formulir Masuk Sit-In</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Swafoto Masuk</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".png,.jpg,.jpeg" }}
+          name="check_in_proof"
+        />
+      </DialogContent>
+      <DialogActions>
+        <LoadingButton
+          loading={checkingInMahasiswa}
+          variant="contained"
+          type="submit"
+        >
+          SIMPAN
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default function SitIn() {
-  const [{ data: sitInResponseData, loading: sitInRequestLoading }] = useAxios({
+  const [
+    { data: sitInResponseData, loading: sitInRequestLoading },
+    refetchSitIn,
+  ] = useAxios({
     url: "mahasiswa/sitin",
   });
 
@@ -49,12 +88,16 @@ export default function SitIn() {
     setClockOut(false);
   };
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+  const [clockInDialogOpen, setClockInDialogOpen] = useState(false);
+  const handleCheckInClick = () => {
+    setClockInDialogOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleClockInDialogClose = () => {
+    setClockInDialogOpen(false);
+  };
+  const handleClockInDialogSubmit = () => {
+    setClockInDialogOpen(false);
+    refetchSitIn();
   };
 
   const columns = [
@@ -106,7 +149,7 @@ export default function SitIn() {
                   variant="outlined"
                   tabIndex={-1}
                 >
-                  <VisuallyHiddenInput type="file" />
+                  <TextField type="file" size="small" />
                 </Button>
                 <DialogContentText>Swafoto Keluar</DialogContentText>
                 <Button
@@ -115,7 +158,7 @@ export default function SitIn() {
                   variant="outlined"
                   tabIndex={-1}
                 >
-                  <VisuallyHiddenInput type="file" />
+                  <TextField type="file" size="small" />
                 </Button>
               </DialogContent>
               <DialogActions>
@@ -156,36 +199,22 @@ export default function SitIn() {
               <Button
                 variant="contained"
                 endIcon={<AddIcon />}
-                onClick={handleOpen}
+                onClick={handleCheckInClick}
                 sx={{ borderRadius: 5, color: "black", marginBottom: 5 }}
                 color="inherit"
               >
                 Check In
               </Button>
-              <Dialog open={open} onClose={handleClose}>
-                <DialogTitle align="center">Formulir Masuk Sit-In</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>Swafoto Masuk</DialogContentText>
-                  <Button
-                    component="label"
-                    role={undefined}
-                    variant="outlined"
-                    tabIndex={-1}
-                  >
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                </DialogContent>
-                <DialogActions>
-                  <Button autoFocus variant="contained" onClick={handleClose}>
-                    SIMPAN
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </Stack>
             <MaterialReactTable table={table} />
           </Grid>
         </Grid>
       </Box>
+      <CheckInDialog
+        open={clockInDialogOpen}
+        onClose={handleClockInDialogClose}
+        onSubmit={handleClockInDialogSubmit}
+      />
     </>
   );
 }
