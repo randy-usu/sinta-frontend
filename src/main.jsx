@@ -462,6 +462,20 @@ const axios = Axios.create({
   baseURL: "http://localhost:8000/api",
 });
 
+axios.interceptors.request.use(
+  async (config) => {
+    const token = localStorage.getItem("mahasiswa_token");
+
+    if (token) {
+      config.headers = {
+        authorization: `Bearer ${token}`,
+      };
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 configure({
   axios,
   defaultOptions: { useCache: false, ssr: false },
