@@ -8,6 +8,7 @@ import {
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -160,6 +161,21 @@ export default function SeminarPraProposal() {
     {
       accessorKey: "status_text",
       header: "Status",
+      Cell: ({ cell, row }) => {
+        const STATUS_COLOR_MAP = {
+          proposed: "warning",
+          declined: "error",
+          approve: "success",
+        };
+
+        return (
+          <Chip
+            color={STATUS_COLOR_MAP[row.original.status]}
+            label={cell.getValue()}
+            variant="contained"
+          />
+        );
+      },
     },
     {
       accessorFn: (dataRow) => new Date(dataRow.proposed_at),
