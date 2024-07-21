@@ -178,7 +178,7 @@ export default function SitIn() {
       accessorKey: "duration",
       header: "Durasi",
       filterVariant: "text",
-      Cell: ({ cell }) => `${cell.getValue()} jam`,
+      Cell: ({ cell }) => `${cell.getValue()} menit`,
     },
   ];
 
