@@ -14,7 +14,6 @@ import {
   Grid,
   Stack,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import useAxios from "axios-hooks";
@@ -71,6 +70,60 @@ const CheckInDialog = ({ open, onClose, onSubmit }) => {
   );
 };
 
+const CheckOutDialog = ({ open, onClose, onSubmit, sitInId }) => {
+  const [{ loading: checkingOutMahasiswa }, checkOutMahasiswa] = useAxios(
+    {
+      url: `mahasiswa/sitin/checkout/${sitInId}`,
+      method: "POST",
+    },
+    { manual: true }
+  );
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        component: "form",
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          await checkOutMahasiswa({ data: formData });
+          onSubmit();
+        },
+      }}
+    >
+      <DialogTitle align="center">Formulir Keluar Sit-In</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Bukti/Laporan Sit In</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          name="check_out_document"
+        />
+        <DialogContentText>Swafoto Keluar</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".png,.jpg,.jpeg" }}
+          name="check_out_proof"
+        />
+      </DialogContent>
+      <DialogActions>
+        <LoadingButton
+          loading={checkingOutMahasiswa}
+          variant="contained"
+          type="submit"
+        >
+          OK
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export default function SitIn() {
   const [
     { data: sitInResponseData, loading: sitInRequestLoading },
@@ -79,14 +132,7 @@ export default function SitIn() {
     url: "mahasiswa/sitin",
   });
 
-  const [clockOut, setClockOut] = useState(false);
-
-  const handleOpenClockOut = () => {
-    setClockOut(true);
-  };
-  const handleCloseClockOut = () => {
-    setClockOut(false);
-  };
+  const [sitInId, setSitInId] = useState(null);
 
   const [clockInDialogOpen, setClockInDialogOpen] = useState(false);
   const handleCheckInClick = () => {
@@ -97,6 +143,17 @@ export default function SitIn() {
   };
   const handleClockInDialogSubmit = () => {
     setClockInDialogOpen(false);
+    refetchSitIn();
+  };
+
+  const handleCheckOutClick = (sitInId) => {
+    setSitInId(sitInId);
+  };
+  const handleClockOutDialogClose = () => {
+    setSitInId(null);
+  };
+  const handleClockOutDialogSubmit = () => {
+    setSitInId(null);
     refetchSitIn();
   };
 
@@ -123,57 +180,6 @@ export default function SitIn() {
       filterVariant: "text",
       Cell: ({ cell }) => `${cell.getValue()} jam`,
     },
-    {
-      accessorKey: "status",
-      header: "Aksi",
-      Cell: ({ cell }) =>
-        cell.getValue() === 0 && (
-          <>
-            <Tooltip title="Clock Out">
-              <Button
-                variant="contained"
-                onClick={handleOpenClockOut}
-                startIcon={<AccessTimeIcon />}
-                color="error"
-              >
-                Clock Out
-              </Button>
-            </Tooltip>
-            <Dialog open={clockOut} onClose={handleCloseClockOut}>
-              <DialogTitle align="center">Formulir Keluar Sit-In</DialogTitle>
-              <DialogContent>
-                <DialogContentText>Bukti/Laporan Sit In</DialogContentText>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <TextField type="file" size="small" />
-                </Button>
-                <DialogContentText>Swafoto Keluar</DialogContentText>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <TextField type="file" size="small" />
-                </Button>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  autoFocus
-                  variant="contained"
-                  onClick={handleCloseClockOut}
-                >
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </>
-        ),
-    },
   ];
 
   const table = useMaterialReactTable({
@@ -185,6 +191,24 @@ export default function SitIn() {
     state: {
       isLoading: sitInRequestLoading,
     },
+    enableRowActions: true,
+    positionActionsColumn: "last",
+    displayColumnDefOptions: {
+      "mrt-row-actions": {
+        header: "Aksi",
+      },
+    },
+    renderRowActions: ({ row }) =>
+      row.original.status === 0 && (
+        <Button
+          variant="contained"
+          onClick={() => handleCheckOutClick(row.original.id)}
+          startIcon={<AccessTimeIcon />}
+          color="error"
+        >
+          Clock Out
+        </Button>
+      ),
   });
 
   return (
@@ -214,6 +238,12 @@ export default function SitIn() {
         open={clockInDialogOpen}
         onClose={handleClockInDialogClose}
         onSubmit={handleClockInDialogSubmit}
+      />
+      <CheckOutDialog
+        open={!!sitInId}
+        sitInId={sitInId}
+        onClose={handleClockOutDialogClose}
+        onSubmit={handleClockOutDialogSubmit}
       />
     </>
   );
