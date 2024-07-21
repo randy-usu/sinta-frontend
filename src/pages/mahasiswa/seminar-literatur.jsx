@@ -176,7 +176,7 @@ export default function SeminarLiteratur() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, background: "#fafafa" }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Stack direction="row">

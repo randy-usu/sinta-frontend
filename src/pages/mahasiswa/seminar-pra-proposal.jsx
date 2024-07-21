@@ -1,206 +1,193 @@
-import {
-  ArrowDropDown as ArrowDropDownIcon,
-  Add as AddIcon,
-  CheckCircle as CheckCircleIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon } from "@mui/icons-material";
 
 import {
   MaterialReactTable,
   useMaterialReactTable,
-} from 'material-react-table';
+} from "material-react-table";
 
 import {
   Box,
   Button,
-  ButtonGroup,
-  ClickAwayListener,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Grid,
-  Grow,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
   Stack,
   TextField,
   Typography,
-  styled,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 import { data_bimbingan } from "../../features/layout/components/tabel-mahasiswa/seminar-praproposal/tabel-bimbingan";
-import { data_pengajuan_seminar } from "../../features/layout/components/tabel-mahasiswa/seminar-praproposal/tabel-pengajuan-seminar";
+import useAxios from "axios-hooks";
+import { LoadingButton } from "@mui/lab";
 
-const VisuallyHiddenInput = styled('input')`
-clip: 'rect(0 0 0 0)',
-clipPath: 'inset(50%)',
-height: 1px,
-overflow: 'hidden',
-position: 'absolute',
-bottom: 0,
-left: 0,
-whiteSpace: 'nowrap',
-width: 1,
-`;
-
-export default function SeminarPraProposal() {
-  const [openBimbingan, setOpenBimbingan] = useState(false);
-  const [openPraProposal, setOpenPraProposal] = useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
-  const handleOpenBimbingan = () => {
-    setOpenBimbingan(true);
-  }
-
-  const handleCloseBimbingan = () => {
-    setOpenBimbingan(false);
-  }
-
-  const handleOpenPraProposal = () => {
-    setOpenPraProposal(true);
-  }
-
-  const handleClosePraProposal = () => {
-    setOpenPraProposal(false);
-  }
-
-  const [action, setAction] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
-
-  const listItems = ['Edit', 'Hapus'];
-  
-  const handleOpenAction = () => {
-    window.alert(`You clicked ${listItems[selectedIndex]}`);
-  };
-
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setAction(false);
-  };
-
-  const handleToggle = () => {
-    setAction((prevOpen) => !prevOpen);
-  };
-
-  const handleCloseAction = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setAction(false);
-  };
-
-  const columns_bimbingan = useMemo(
-    () => [
-      {
-        accessorKey: 'tanggal',
-        header: 'Tanggal',
-        filterVariant: 'text',
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-      },
-      {
-        accessorKey: 'pembahasan',
-        header: 'Pembahasan',
-        filterVariant: 'text',
-      },
-      {
-        accessorKey: 'catatan',
-        header: 'Catatan',
-        filterVariant: 'text',
-      },
-    ],
-  );
-
-  const columns_pengajuan_seminar = useMemo(
-    () => [
-      {
-        accessorKey: 'judul',
-        header: 'Judul',
-        filterVariant: 'text',
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-      },
-      {
-        accessorKey: 'tanggal',
-        header: 'Tanggal',
-        filterVariant: 'text',
-      },
-      {
-        accessorKey: 'nama_pic',
-        header: 'Nama PIC',
-        filterVariant: 'text',
-      },
-      {
-        id: 'Aksi',
-        header: 'Aksi',
-        Cell: () => ( 
-          <Box>
-            <div>
-            <ButtonGroup
-              variant="contained"
-              color="primary"
-              ref={anchorRef}>
-              <Button onClick={handleOpenAction}>{listItems[selectedIndex]}</Button>
-              <Button
-                size="small"
-                onClick={handleToggle}>
-                <ArrowDropDownIcon />
-              </Button>
-            </ButtonGroup>
-            <Popper
-              sx={{
-                zIndex: 1,
-              }}
-              transition
-              open={action}
-              anchorEl={anchorRef.current}>
-              {({ TransitionProps }) => (
-              <Grow
-                {...TransitionProps}
-              >
-                <div style={{backgroundColor: 'green', color: 'white'}}>
-                  <Paper>
-                  <ClickAwayListener onClickAway={handleCloseAction}>
-                    <MenuList id="split-button-menu">
-                      {listItems.map((item, i) => (
-                        <MenuItem
-                          key={item}
-                          disabled={i === 2}
-                          selected={i === selectedIndex}
-                          onClick={(e) => handleMenuItemClick(e, i)}>
-                          {item}
-                        </MenuItem>
-                      ))}
-                    </MenuList>
-                  </ClickAwayListener>
-                  </Paper>
-                </div>
-              </Grow>
-              )}
-            </Popper>
-          </div>
-          </Box>
-        ),
-      },
-    ],
+const AjukanSeminarPraProposalDialog = ({ open, onClose, onSubmit }) => {
+  const [{ loading: isAjukanSeminarPraPro }, ajukanSeminarPraPro] = useAxios(
+    {
+      url: `mahasiswa/seminar-praproposal`,
+      method: "POST",
+    },
+    { manual: true }
   );
 
   return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        component: "form",
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          await ajukanSeminarPraPro({ data: formData });
+          onSubmit();
+        },
+      }}
+    >
+      <DialogTitle align="center">Formulir Pra Proposal</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Draft Pra Proposal</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".doc,.docx,.pdf" }}
+          name="draf_pra_pro"
+        />
+        <DialogContentText>Dokumen Power Point</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".ppt,.pptx" }}
+          name="pra_pro_ppt"
+        />
+        <DialogContentText>Dokumen Persetujuan Pra Proposal</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".doc,.docx,.pdf" }}
+          name="dok_persetujuan_pra_pro"
+        />
+      </DialogContent>
+      <DialogActions>
+        <LoadingButton
+          loading={isAjukanSeminarPraPro}
+          variant="contained"
+          type="submit"
+        >
+          SIMPAN
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default function SeminarPraProposal() {
+  const [openBimbingan, setOpenBimbingan] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleOpenBimbingan = () => {
+    setOpenBimbingan(true);
+  };
+
+  const handleCloseBimbingan = () => {
+    setOpenBimbingan(false);
+  };
+
+  const [
+    ajukanSeminarPraProposalDialogOpen,
+    setAjukanSeminarPraProposalDialogOpen,
+  ] = useState(false);
+
+  const handleClickOpen = () => {
+    setAjukanSeminarPraProposalDialogOpen(true);
+  };
+
+  const handleAjukanSeminarPraProposalDialogClose = () => {
+    setAjukanSeminarPraProposalDialogOpen(false);
+  };
+  const handleAjukanSeminarPraProposalDialogSubmit = () => {
+    setAjukanSeminarPraProposalDialogOpen(false);
+    refetchSeminarPraProposal();
+  };
+
+  const [
+    {
+      data: seminarPraProposalResponseData,
+      loading: seminarPraProposalRequestLoading,
+    },
+    refetchSeminarPraProposal,
+  ] = useAxios({
+    url: "mahasiswa/seminar-praproposal",
+  });
+
+  const columns_bimbingan = [
+    {
+      accessorKey: "tanggal",
+      header: "Tanggal",
+      filterVariant: "text",
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+    },
+    {
+      accessorKey: "pembahasan",
+      header: "Pembahasan",
+      filterVariant: "text",
+    },
+    {
+      accessorKey: "catatan",
+      header: "Catatan",
+      filterVariant: "text",
+    },
+  ];
+
+  const pengajuanSeminarColumns = [
+    {
+      accessorKey: "title",
+      header: "Judul",
+      filterVariant: "text",
+    },
+    {
+      accessorKey: "status_text",
+      header: "Status",
+    },
+    {
+      accessorFn: (dataRow) => new Date(dataRow.proposed_at),
+      header: "Tanggal",
+      filterVariant: "date-range",
+      Cell: ({ cell }) => cell.getValue().toLocaleDateString("id"),
+    },
+    {
+      accessorKey: "pic",
+      header: "Nama PIC",
+      filterVariant: "text",
+    },
+  ];
+
+  const pengajuanSeminarTable = useMaterialReactTable({
+    columns: pengajuanSeminarColumns,
+    data: seminarPraProposalResponseData?.data ?? [],
+    enableGlobalFilter: false,
+    enableSorting: false,
+    enableColumnFilters: false,
+    state: {
+      isLoading: seminarPraProposalRequestLoading,
+    },
+  });
+
+  return (
     <>
-      <Box sx={{ flexGrow: 1, background: '#fafafa' }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Stack direction="row">
@@ -213,17 +200,15 @@ export default function SeminarPraProposal() {
                 onClick={handleOpenBimbingan}
                 sx={{ borderRadius: 5, marginRight: 1, marginBottom: 1 }}
                 color="info"
-                positionActionsColumn="last"
               >
                 Bimbingan
               </Button>
               <Button
                 variant="contained"
                 endIcon={<AddIcon />}
-                onClick={handleOpenPraProposal}
-                sx={{ borderRadius: 5, color: 'black', marginBottom: 1 }}
+                onClick={handleClickOpen}
+                sx={{ borderRadius: 5, color: "black", marginBottom: 1 }}
                 color="inherit"
-                positionActionsColumn="last"
               >
                 Ajukan
               </Button>
@@ -232,120 +217,72 @@ export default function SeminarPraProposal() {
               fullScreen={fullScreen}
               open={openBimbingan}
               onClose={handleCloseBimbingan}
-              aria-labelledby="responsive-dialog-title">
-                <DialogTitle id="responsive-dialog-title" align="center">
-                  {"Formulir Bimbingan untuk Seminar Pra Proposal"}
-                </DialogTitle>
-                <DialogContent>
-                  <Box
-                    component="form"
-                    sx={{ '& .MuiTextField-root': { m:1, width: '50ch' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                    >
-                    <div>
-                      <TextField
-                        id="outlined-multiline-static"
-                        label="Saran"
-                        multiline
-                        fullWidth
-                        rows={2}
-                      />
-                    </div>
-                    <div>
-                      <TextField
-                        id="outlined-multiline-static"
-                        label="Catatan"
-                        multiline
-                        fullWidth
-                        rows={2}
-                      />
-                    </div>
-                  </Box>
-                </DialogContent>
-                <DialogActions>
-                  <Button autoFocus variant="contained" onClick={handleCloseBimbingan}>
-                    SIMPAN
-                  </Button>
-                </DialogActions>
-              </Dialog>
-              <Dialog
-          fullScreen={fullScreen}
-          open={openPraProposal}
-          onClose={handleClosePraProposal}
-          aria-labelledby="responsive-dialog-title"
-          >
-            <DialogTitle id="responsive-dialog-title" align="center">
-              {"Formulir Pra Proposal"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Draft Pra Proposal
-              </DialogContentText>
-              <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
+            >
+              <DialogTitle align="center">
+                Formulir Bimbingan untuk Seminar Pra Proposal
+              </DialogTitle>
+              <DialogContent>
+                <Box
+                  component="form"
+                  sx={{ "& .MuiTextField-root": { m: 1, width: "50ch" } }}
+                  noValidate
+                  autoComplete="off"
                 >
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-                <DialogContentText>
-                  Dokumen Power Point
-                </DialogContentText>
+                  <div>
+                    <TextField
+                      id="outlined-multiline-static"
+                      label="Saran"
+                      multiline
+                      fullWidth
+                      rows={2}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-multiline-static"
+                      label="Catatan"
+                      multiline
+                      fullWidth
+                      rows={2}
+                    />
+                  </div>
+                </Box>
+              </DialogContent>
+              <DialogActions>
                 <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
+                  autoFocus
+                  variant="contained"
+                  onClick={handleCloseBimbingan}
                 >
-                  <VisuallyHiddenInput type="file" />
+                  SIMPAN
                 </Button>
-                <DialogContentText>
-                  Dokumen Persetujuan Pra Proposal
-                </DialogContentText>
-                <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-            </DialogContent>
-          <DialogActions>
-            <Button autoFocus variant="contained" onClick={handleClosePraProposal}>
-                SIMPAN
-              </Button>
-            </DialogActions>
-        </Dialog>
-                <div>
-                  <Typography sx={{ marginTop: 5, fontWeight: 'bold' }}>Bimbingan</Typography>
-                  <MaterialReactTable 
-                    columns={columns_bimbingan}
-                    data={data_bimbingan}
-                    enableFacetedValues
-                    initialState={{ showColumnFilter: true, showGlobalFilter: true }}
-                    positionGlobalFilter="left"
-                  >
-                  </MaterialReactTable>
-                </div>
-
-                <div>
-                <Typography sx={{ marginTop: 5, fontWeight: 'bold' }}>Pengajuan Seminar</Typography>
-                  <MaterialReactTable 
-                    columns={columns_pengajuan_seminar}
-                    data={data_pengajuan_seminar}
-                    enableFacetedValues
-                    initialState={{ showColumnFilter: true, showGlobalFilter: true }}
-                    positionGlobalFilter="left"
-                  >
-                  </MaterialReactTable>
-                </div>
-            </Grid>
+              </DialogActions>
+            </Dialog>
+            <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
+              Bimbingan
+            </Typography>
+            <MaterialReactTable
+              columns={columns_bimbingan}
+              data={data_bimbingan}
+              enableFacetedValues
+              initialState={{
+                showColumnFilter: true,
+                showGlobalFilter: true,
+              }}
+              positionGlobalFilter="left"
+            ></MaterialReactTable>
+            <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
+              Pengajuan Seminar
+            </Typography>
+            <MaterialReactTable table={pengajuanSeminarTable} />
+          </Grid>
         </Grid>
       </Box>
+      <AjukanSeminarPraProposalDialog
+        open={ajukanSeminarPraProposalDialogOpen}
+        onClose={handleAjukanSeminarPraProposalDialogClose}
+        onSubmit={handleAjukanSeminarPraProposalDialogSubmit}
+      />
     </>
-  )
+  );
 }

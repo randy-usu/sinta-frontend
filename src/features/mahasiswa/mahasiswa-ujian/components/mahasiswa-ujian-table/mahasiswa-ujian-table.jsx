@@ -23,8 +23,7 @@ import {
   PenilaianMahasiswaDialog,
 } from "../../../../ui";
 
-export const MahasiswaUjianTable = ()=> {
-
+export const MahasiswaUjianTable = () => {
   const [data, setData] = useState([
     {
       number: 1,
@@ -49,7 +48,7 @@ export const MahasiswaUjianTable = ()=> {
       tahapanTerakhir: "Seminar Proposal",
     },
   ]);
-  
+
   const PROPERTIES = [
     ["NIM", 237038038],
     ["Nama", "Rima Susanti"],
@@ -61,21 +60,22 @@ export const MahasiswaUjianTable = ()=> {
     ["Tahapan Terakhir", "Seminar Proposal"],
   ];
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = data.filter(item =>
-    item.nim.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.dosenPembimbing1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.dosenPembimbing2.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.dosenPenguji1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.dosenPenguji2.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.tahapanTerakhir.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.tglUjian.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = data.filter(
+    (item) =>
+      item.nim.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.dosenPembimbing1.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.dosenPembimbing2.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.dosenPenguji1.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.dosenPenguji2.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.tahapanTerakhir.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.tglUjian.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const [page, setPage] = React.useState(0);
@@ -98,88 +98,96 @@ export const MahasiswaUjianTable = ()=> {
 
   return (
     <>
-    <Box sx={{ flexGrow: 1, background: '#fafafa'}}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-          <Typography component="h1" variant="h4" sx={{ flex: 1, marginBottom: 5 }}>
-            Mahasiswa Ujian
-          </Typography>
+            <Typography
+              component="h1"
+              variant="h4"
+              sx={{ flex: 1, marginBottom: 5 }}
+            >
+              Mahasiswa Ujian
+            </Typography>
             <div>
-            <Paper>
-              <TextField
-                label="Search"
-                variant="outlined"
-                value={searchTerm}
-                onChange={handleSearch}
-                style={{ margin: '16px', width: 300 }}
-                
-              />
-              <Divider />
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>No.</TableCell>
-                      <TableCell>NIM</TableCell>
-                      <TableCell>Nama</TableCell>
-                      <TableCell>Dosen Pembimbing</TableCell>
-                      <TableCell>Dosen Penguji</TableCell>
-                      <TableCell>Tahapan Terakhir</TableCell>
-                      <TableCell>Tgl. Ujian</TableCell>
-                      <TableCell>Aksi</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                  {filteredData.map((item) => (
-                    <TableRow
-                      key={item.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {item.number}
-                      </TableCell>
-                      <TableCell>{item.nim}</TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>
-                        <FontSizeInheritedTypography>
-                          {item.dosenPembimbing1}
-                        </FontSizeInheritedTypography>
-                        <FontSizeInheritedTypography>
-                          {item.dosenPembimbing2}
-                        </FontSizeInheritedTypography>
-                      </TableCell>
-                      <TableCell>
-                        <FontSizeInheritedTypography>
-                          {item.dosenPenguji1}
-                        </FontSizeInheritedTypography>
-                        <FontSizeInheritedTypography>
-                          {item.dosenPenguji2}
-                        </FontSizeInheritedTypography>
-                      </TableCell>
-                      <TableCell>{item.tahapanTerakhir}</TableCell>
-                      <TableCell>{item.tglUjian}</TableCell>
-                      <TableCell>
-                        <Button variant="outlined">
-                          <Link component="button" onClick={handlePenilaianClick}>
-                            Input Nilai
-                          </Link>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Divider />
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
-                component="div"
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+              <Paper>
+                <TextField
+                  label="Search"
+                  variant="outlined"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  style={{ margin: "16px", width: 300 }}
+                />
+                <Divider />
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>No.</TableCell>
+                        <TableCell>NIM</TableCell>
+                        <TableCell>Nama</TableCell>
+                        <TableCell>Dosen Pembimbing</TableCell>
+                        <TableCell>Dosen Penguji</TableCell>
+                        <TableCell>Tahapan Terakhir</TableCell>
+                        <TableCell>Tgl. Ujian</TableCell>
+                        <TableCell>Aksi</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {filteredData.map((item) => (
+                        <TableRow
+                          key={item.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {item.number}
+                          </TableCell>
+                          <TableCell>{item.nim}</TableCell>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell>
+                            <FontSizeInheritedTypography>
+                              {item.dosenPembimbing1}
+                            </FontSizeInheritedTypography>
+                            <FontSizeInheritedTypography>
+                              {item.dosenPembimbing2}
+                            </FontSizeInheritedTypography>
+                          </TableCell>
+                          <TableCell>
+                            <FontSizeInheritedTypography>
+                              {item.dosenPenguji1}
+                            </FontSizeInheritedTypography>
+                            <FontSizeInheritedTypography>
+                              {item.dosenPenguji2}
+                            </FontSizeInheritedTypography>
+                          </TableCell>
+                          <TableCell>{item.tahapanTerakhir}</TableCell>
+                          <TableCell>{item.tglUjian}</TableCell>
+                          <TableCell>
+                            <Button variant="outlined">
+                              <Link
+                                component="button"
+                                onClick={handlePenilaianClick}
+                              >
+                                Input Nilai
+                              </Link>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <Divider />
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
+                  component="div"
+                  count={data.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               </Paper>
             </div>
           </Grid>
