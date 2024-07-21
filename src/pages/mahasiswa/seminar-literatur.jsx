@@ -2,6 +2,7 @@ import {
   Add as AddIcon,
   RemoveOutlined as RemoveIcon,
 } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
@@ -16,16 +17,91 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import useAxios from "axios-hooks";
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import React, { Fragment, useState } from "react";
-import Literatur from "../../features/layout/components/literatur/literatur";
+import { Fragment, useState } from "react";
+
+const AjukanSeminarLiteraturDialog = ({ open, onClose, onSubmit }) => {
+  const [{ loading: isAjukanSeminar }, ajukanSeminar] = useAxios(
+    {
+      url: `mahasiswa/seminar-literatur`,
+      method: "POST",
+    },
+    { manual: true }
+  );
+
+  const [literatureFiles, setLiteratureFiles] = useState([0]);
+
+  const handleAddClick = () =>
+    setLiteratureFiles((files) => [...files, files.length]);
+  const handleRemoveClick = () =>
+    setLiteratureFiles((files) => files.slice(0, -1));
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        component: "form",
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          await ajukanSeminar({ data: formData });
+          onSubmit();
+        },
+      }}
+    >
+      <DialogTitle align="center">
+        Formulir Pengusulan Seminar Literatur
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>File Power Point</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".ppt,.pptx" }}
+          name="file_ppt"
+        />
+        {literatureFiles.map((fileIndex) => (
+          <Fragment key={fileIndex}>
+            <DialogContentText>Literatur {fileIndex + 1}</DialogContentText>
+            <TextField
+              required
+              type="file"
+              size="small"
+              inputProps={{ accept: ".pdf" }}
+              name="file_literatur[]"
+            />
+          </Fragment>
+        ))}
+        <div>
+          <Fab onClick={handleAddClick} size="small" color="info">
+            <AddIcon />
+          </Fab>
+          {literatureFiles.length > 1 && (
+            <Fab onClick={handleRemoveClick} size="small" color="error">
+              <RemoveIcon />
+            </Fab>
+          )}
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <LoadingButton
+          loading={isAjukanSeminar}
+          variant="contained"
+          type="submit"
+        >
+          OK
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default function SeminarLiteratur() {
   const [
@@ -37,51 +113,21 @@ export default function SeminarLiteratur() {
   ] = useAxios({
     url: "mahasiswa/seminar-literatur",
   });
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [
+    ajukanSeminarLiteraturDialogOpen,
+    setAjukanSeminarLiteraturDialogOpen,
+  ] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setAjukanSeminarLiteraturDialogOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleAjukanSeminarLiteraturDialogClose = () => {
+    setAjukanSeminarLiteraturDialogOpen(false);
   };
-
-  const [document, setDocument] = useState(["1"]);
-  const [documentNames, setDocumentNames] = useState([
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-  ]);
-  function addComponent() {
-    if (documentNames.length > 0) {
-      setDocument([...document, documentNames[0]]);
-      documentNames.splice(0, 1);
-    }
-  }
-
-  const handleDeleteInput = (index) => {
-    const newArray = [...document];
-    newArray.splice(index, 1);
-    setDocument(newArray);
+  const handleAjukanSeminarLiteraturDialogSubmit = () => {
+    setAjukanSeminarLiteraturDialogOpen(false);
+    refetchSeminarLiteratur();
   };
 
   const columns = [
@@ -146,61 +192,16 @@ export default function SeminarLiteratur() {
               >
                 Ajukan
               </Button>
-              <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
-                <DialogTitle align="center">
-                  Formulir Pengusulan Seminar Literatur
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText>File Power Point</DialogContentText>
-                  <TextField
-                    required
-                    type="file"
-                    size="small"
-                    inputProps={{ accept: ".ppt,.pptx" }}
-                    // name="check_in_proof"
-                  />
-                  {document.map((item, i) => (
-                    <Fragment key={i}>
-                      <DialogContentText>Literatur {i + 1}</DialogContentText>
-                      <TextField
-                        required
-                        type="file"
-                        size="small"
-                        // inputProps={{ accept: ".ppt,.pptx" }}
-                        // name="check_in_proof"
-                      />
-                    </Fragment>
-                  ))}
-                  <div>
-                    <Fab
-                      onClick={addComponent}
-                      size="small"
-                      color="info"
-                      aria-label="add"
-                    >
-                      <AddIcon />
-                    </Fab>
-                    <Fab
-                      onClick={handleDeleteInput}
-                      size="small"
-                      color="error"
-                      aria-label="add"
-                    >
-                      <RemoveIcon />
-                    </Fab>
-                  </div>
-                </DialogContent>
-                <DialogActions>
-                  <Button autoFocus variant="contained" onClick={handleClose}>
-                    OK
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </Stack>
             <MaterialReactTable table={table} />
           </Grid>
         </Grid>
       </Box>
+      <AjukanSeminarLiteraturDialog
+        open={ajukanSeminarLiteraturDialogOpen}
+        onClose={handleAjukanSeminarLiteraturDialogClose}
+        onSubmit={handleAjukanSeminarLiteraturDialogSubmit}
+      />
     </>
   );
 }
