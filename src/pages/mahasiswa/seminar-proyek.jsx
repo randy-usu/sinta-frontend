@@ -1,9 +1,4 @@
-import {
-  ArrowDropDown as ArrowDropDownIcon,
-  Add as AddIcon,
-  CheckCircle as CheckCircleIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon } from "@mui/icons-material";
 
 import {
   MaterialReactTable,
@@ -13,46 +8,74 @@ import {
 import {
   Box,
   Button,
-  ButtonGroup,
-  ClickAwayListener,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Grid,
-  Grow,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
   Stack,
   TextField,
   Typography,
-  styled,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 import { data_bimbingan } from "../../features/layout/components/tabel-mahasiswa/seminar-proyek/tabel-bimbingan";
-import { data_pengajuan_seminar } from "../../features/layout/components/tabel-mahasiswa/seminar-proyek/tabel-pengajuan-seminar";
+import useAxios from "axios-hooks";
+import { LoadingButton } from "@mui/lab";
 
-const VisuallyHiddenInput = styled("input")`
-clip: 'rect(0 0 0 0)',
-clipPath: 'inset(50%)',
-height: 1px,
-overflow: 'hidden',
-position: 'absolute',
-bottom: 0,
-left: 0,
-whiteSpace: 'nowrap',
-width: 1,
-`;
+const AjukanSeminarProyekDialog = ({ open, onClose, onSubmit }) => {
+  const [{ loading: isAjukanSeminarProyek }, ajukanSeminarProyek] = useAxios(
+    {
+      url: `mahasiswa/seminar-proyek`,
+      method: "POST",
+    },
+    { manual: true }
+  );
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        component: "form",
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          await ajukanSeminarProyek({ data: formData });
+          onSubmit();
+        },
+      }}
+    >
+      <DialogTitle align="center">Formulir Proyek</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Dokumen Persetujuan Proyek</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".doc,.docx,.pdf" }}
+          name="dok_per_sem_proyek"
+        />
+      </DialogContent>
+      <DialogActions>
+        <LoadingButton
+          loading={isAjukanSeminarProyek}
+          variant="contained"
+          type="submit"
+        >
+          SIMPAN
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default function SeminarProyek() {
   const [openBimbingan, setOpenBimbingan] = useState(false);
-  const [openProyek, setOpenProyek] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -64,41 +87,29 @@ export default function SeminarProyek() {
     setOpenBimbingan(false);
   };
 
-  const handleOpenProyek = () => {
-    setOpenProyek(true);
+  const [ajukanSeminarProyekDialogOpen, setAjukanSeminarProyekDialogOpen] =
+    useState(false);
+
+  const handleClickOpen = () => {
+    setAjukanSeminarProyekDialogOpen(true);
   };
 
-  const handleCloseProyek = () => {
-    setOpenProyek(false);
+  const handleAjukanSeminarProyekDialogClose = () => {
+    setAjukanSeminarProyekDialogOpen(false);
+  };
+  const handleAjukanSeminarProyekDialogSubmit = () => {
+    setAjukanSeminarProyekDialogOpen(false);
+    refetchSeminarProyek();
   };
 
-  const [action, setAction] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [
+    { data: seminarProyekResponseData, loading: seminarProyekRequestLoading },
+    refetchSeminarProyek,
+  ] = useAxios({
+    url: "mahasiswa/seminar-proyek",
+  });
 
-  const listItems = ["Edit", "Hapus"];
-
-  const handleOpenAction = () => {
-    window.alert(`You clicked ${listItems[selectedIndex]}`);
-  };
-
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setAction(false);
-  };
-
-  const handleToggle = () => {
-    setAction((prevOpen) => !prevOpen);
-  };
-
-  const handleCloseAction = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setAction(false);
-  };
-
-  const columns_bimbingan = useMemo(() => [
+  const columns_bimbingan = [
     {
       accessorKey: "tanggal",
       header: "Tanggal",
@@ -118,78 +129,56 @@ export default function SeminarProyek() {
       header: "Catatan",
       filterVariant: "text",
     },
-  ]);
+  ];
 
-  const columns_pengajuan_seminar = useMemo(() => [
+  const pengajuanSeminarColumns = [
     {
-      accessorKey: "judul",
+      accessorKey: "title",
       header: "Judul",
       filterVariant: "text",
     },
     {
-      accessorKey: "status",
+      accessorKey: "status_text",
       header: "Status",
+      Cell: ({ cell, row }) => {
+        const STATUS_COLOR_MAP = {
+          proposed: "warning",
+          declined: "error",
+          approve: "success",
+        };
+
+        return (
+          <Chip
+            color={STATUS_COLOR_MAP[row.original.status]}
+            label={cell.getValue()}
+            variant="contained"
+          />
+        );
+      },
     },
     {
-      accessorKey: "tanggal",
+      accessorFn: (dataRow) => new Date(dataRow.proposed_at),
       header: "Tanggal",
-      filterVariant: "text",
+      filterVariant: "date-range",
+      Cell: ({ cell }) => cell.getValue().toLocaleDateString("id"),
     },
     {
-      accessorKey: "nama_pic",
+      accessorKey: "pic",
       header: "Nama PIC",
       filterVariant: "text",
     },
-    {
-      id: "aksi",
-      header: "Aksi",
-      Cell: () => (
-        <Box>
-          <div>
-            <ButtonGroup variant="contained" color="primary" ref={anchorRef}>
-              <Button onClick={handleOpenAction}>
-                {listItems[selectedIndex]}
-              </Button>
-              <Button size="small" onClick={handleToggle}>
-                <ArrowDropDownIcon />
-              </Button>
-            </ButtonGroup>
-            <Popper
-              sx={{
-                zIndex: 1,
-              }}
-              transition
-              open={action}
-              anchorEl={anchorRef.current}
-            >
-              {({ TransitionProps }) => (
-                <Grow {...TransitionProps}>
-                  <div style={{ backgroundColor: "green", color: "white" }}>
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleCloseAction}>
-                        <MenuList id="split-button-menu">
-                          {listItems.map((item, i) => (
-                            <MenuItem
-                              key={item}
-                              disabled={i === 2}
-                              selected={i === selectedIndex}
-                              onClick={(e) => handleMenuItemClick(e, i)}
-                            >
-                              {item}
-                            </MenuItem>
-                          ))}
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </div>
-                </Grow>
-              )}
-            </Popper>
-          </div>
-        </Box>
-      ),
+  ];
+
+  const pengajuanSeminarTable = useMaterialReactTable({
+    columns: pengajuanSeminarColumns,
+    data: seminarProyekResponseData?.data ?? [],
+    enableGlobalFilter: false,
+    enableSorting: false,
+    enableColumnFilters: false,
+    state: {
+      isLoading: seminarProyekRequestLoading,
     },
-  ]);
+  });
 
   return (
     <>
@@ -206,17 +195,15 @@ export default function SeminarProyek() {
                 onClick={handleOpenBimbingan}
                 sx={{ borderRadius: 5, marginRight: 1, marginBottom: 1 }}
                 color="info"
-                positionActionsColumn="last"
               >
                 Bimbingan
               </Button>
               <Button
                 variant="contained"
                 endIcon={<AddIcon />}
-                onClick={handleOpenProyek}
+                onClick={handleClickOpen}
                 sx={{ borderRadius: 5, color: "black", marginBottom: 1 }}
                 color="inherit"
-                positionActionsColumn="last"
               >
                 Ajukan
               </Button>
@@ -225,10 +212,9 @@ export default function SeminarProyek() {
               fullScreen={fullScreen}
               open={openBimbingan}
               onClose={handleCloseBimbingan}
-              aria-labelledby="responsive-dialog-title"
             >
-              <DialogTitle id="responsive-dialog-title" align="center">
-                {"Formulir Bimbingan untuk Seminar Proyek"}
+              <DialogTitle align="center">
+                Formulir Bimbingan untuk Seminar Proyek
               </DialogTitle>
               <DialogContent>
                 <Box
@@ -267,72 +253,31 @@ export default function SeminarProyek() {
                 </Button>
               </DialogActions>
             </Dialog>
-            <Dialog
-              fullScreen={fullScreen}
-              open={openProyek}
-              onClose={handleCloseProyek}
-              aria-labelledby="responsive-dialog-title"
-            >
-              <DialogTitle id="responsive-dialog-title" align="center">
-                {"Formulir Seminar Proyek"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Dokumen Persetujuan Seminar Proyek
-                </DialogContentText>
-                <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  autoFocus
-                  variant="contained"
-                  onClick={handleCloseProyek}
-                >
-                  SIMPAN
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <div>
-              <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
-                Bimbingan
-              </Typography>
-              <MaterialReactTable
-                columns={columns_bimbingan}
-                data={data_bimbingan}
-                enableFacetedValues
-                initialState={{
-                  showColumnFilter: true,
-                  showGlobalFilter: true,
-                }}
-                positionGlobalFilter="left"
-              ></MaterialReactTable>
-            </div>
-
-            <div>
-              <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
-                Pengajuan Seminar
-              </Typography>
-              <MaterialReactTable
-                columns={columns_pengajuan_seminar}
-                data={data_pengajuan_seminar}
-                enableFacetedValues
-                initialState={{
-                  showColumnFilter: true,
-                  showGlobalFilter: true,
-                }}
-                positionGlobalFilter="left"
-              ></MaterialReactTable>
-            </div>
+            <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
+              Bimbingan
+            </Typography>
+            <MaterialReactTable
+              columns={columns_bimbingan}
+              data={data_bimbingan}
+              enableFacetedValues
+              initialState={{
+                showColumnFilter: true,
+                showGlobalFilter: true,
+              }}
+              positionGlobalFilter="left"
+            ></MaterialReactTable>
+            <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
+              Pengajuan Seminar
+            </Typography>
+            <MaterialReactTable table={pengajuanSeminarTable} />
           </Grid>
         </Grid>
       </Box>
+      <AjukanSeminarProyekDialog
+        open={ajukanSeminarProyekDialogOpen}
+        onClose={handleAjukanSeminarProyekDialogClose}
+        onSubmit={handleAjukanSeminarProyekDialogSubmit}
+      />
     </>
   );
 }

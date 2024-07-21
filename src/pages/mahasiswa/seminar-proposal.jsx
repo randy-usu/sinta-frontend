@@ -1,9 +1,4 @@
-import {
-  ArrowDropDown as ArrowDropDownIcon,
-  Add as AddIcon,
-  CheckCircle as CheckCircleIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon } from "@mui/icons-material";
 
 import {
   MaterialReactTable,
@@ -13,46 +8,90 @@ import {
 import {
   Box,
   Button,
-  ButtonGroup,
-  ClickAwayListener,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Grid,
-  Grow,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
   Stack,
   TextField,
   Typography,
-  styled,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 import { data_bimbingan } from "../../features/layout/components/tabel-mahasiswa/seminar-proposal/tabel-bimbingan";
-import { data_pengajuan_seminar } from "../../features/layout/components/tabel-mahasiswa/seminar-proposal/tabel-pengajuan-seminar";
+import useAxios from "axios-hooks";
+import { LoadingButton } from "@mui/lab";
 
-const VisuallyHiddenInput = styled("input")`
-clip: 'rect(0 0 0 0)',
-clipPath: 'inset(50%)',
-height: 1px,
-overflow: 'hidden',
-position: 'absolute',
-bottom: 0,
-left: 0,
-whiteSpace: 'nowrap',
-width: 1,
-`;
+const AjukanSeminarProposalDialog = ({ open, onClose, onSubmit }) => {
+  const [{ loading: isAjukanSeminarPro }, ajukanSeminarPro] = useAxios(
+    {
+      url: `mahasiswa/seminar-proposal`,
+      method: "POST",
+    },
+    { manual: true }
+  );
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        component: "form",
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          await ajukanSeminarPro({ data: formData });
+          onSubmit();
+        },
+      }}
+    >
+      <DialogTitle align="center">Formulir Proposal</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Draft Proposal</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".doc,.docx,.pdf" }}
+          name="draf_pro"
+        />
+        <DialogContentText>Dokumen Power Point</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".ppt,.pptx" }}
+          name="pro_ppt"
+        />
+        <DialogContentText>Dokumen Persetujuan Proposal</DialogContentText>
+        <TextField
+          required
+          type="file"
+          size="small"
+          inputProps={{ accept: ".doc,.docx,.pdf" }}
+          name="dok_persetujuan_pro"
+        />
+      </DialogContent>
+      <DialogActions>
+        <LoadingButton
+          loading={isAjukanSeminarPro}
+          variant="contained"
+          type="submit"
+        >
+          SIMPAN
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default function SeminarProposal() {
   const [openBimbingan, setOpenBimbingan] = useState(false);
-  const [openProposal, setOpenProposal] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -64,41 +103,32 @@ export default function SeminarProposal() {
     setOpenBimbingan(false);
   };
 
-  const handleOpenProposal = () => {
-    setOpenProposal(true);
+  const [ajukanSeminarProposalDialogOpen, setAjukanSeminarProposalDialogOpen] =
+    useState(false);
+
+  const handleClickOpen = () => {
+    setAjukanSeminarProposalDialogOpen(true);
   };
 
-  const handleCloseProposal = () => {
-    setOpenProposal(false);
+  const handleAjukanSeminarProposalDialogClose = () => {
+    setAjukanSeminarProposalDialogOpen(false);
+  };
+  const handleAjukanSeminarProposalDialogSubmit = () => {
+    setAjukanSeminarProposalDialogOpen(false);
+    refetchSeminarProposal();
   };
 
-  const [action, setAction] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [
+    {
+      data: seminarProposalResponseData,
+      loading: seminarProposalRequestLoading,
+    },
+    refetchSeminarProposal,
+  ] = useAxios({
+    url: "mahasiswa/seminar-proposal",
+  });
 
-  const listItems = ["Edit", "Hapus"];
-
-  const handleOpenAction = () => {
-    window.alert(`You clicked ${listItems[selectedIndex]}`);
-  };
-
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setAction(false);
-  };
-
-  const handleToggle = () => {
-    setAction((prevOpen) => !prevOpen);
-  };
-
-  const handleCloseAction = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setAction(false);
-  };
-
-  const columns_bimbingan = useMemo(() => [
+  const columns_bimbingan = [
     {
       accessorKey: "tanggal",
       header: "Tanggal",
@@ -118,78 +148,56 @@ export default function SeminarProposal() {
       header: "Catatan",
       filterVariant: "text",
     },
-  ]);
+  ];
 
-  const columns_pengajuan_seminar = useMemo(() => [
+  const pengajuanSeminarColumns = [
     {
-      accessorKey: "judul",
+      accessorKey: "title",
       header: "Judul",
       filterVariant: "text",
     },
     {
-      accessorKey: "status",
+      accessorKey: "status_text",
       header: "Status",
+      Cell: ({ cell, row }) => {
+        const STATUS_COLOR_MAP = {
+          proposed: "warning",
+          declined: "error",
+          approve: "success",
+        };
+
+        return (
+          <Chip
+            color={STATUS_COLOR_MAP[row.original.status]}
+            label={cell.getValue()}
+            variant="contained"
+          />
+        );
+      },
     },
     {
-      accessorKey: "tanggal",
+      accessorFn: (dataRow) => new Date(dataRow.proposed_at),
       header: "Tanggal",
-      filterVariant: "text",
+      filterVariant: "date-range",
+      Cell: ({ cell }) => cell.getValue().toLocaleDateString("id"),
     },
     {
-      accessorKey: "nama_pic",
+      accessorKey: "pic",
       header: "Nama PIC",
       filterVariant: "text",
     },
-    {
-      id: "aksi",
-      header: "Aksi",
-      Cell: () => (
-        <Box>
-          <div>
-            <ButtonGroup variant="contained" color="primary" ref={anchorRef}>
-              <Button onClick={handleOpenAction}>
-                {listItems[selectedIndex]}
-              </Button>
-              <Button size="small" onClick={handleToggle}>
-                <ArrowDropDownIcon />
-              </Button>
-            </ButtonGroup>
-            <Popper
-              sx={{
-                zIndex: 1,
-              }}
-              transition
-              open={action}
-              anchorEl={anchorRef.current}
-            >
-              {({ TransitionProps }) => (
-                <Grow {...TransitionProps}>
-                  <div style={{ backgroundColor: "green", color: "white" }}>
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleCloseAction}>
-                        <MenuList id="split-button-menu">
-                          {listItems.map((item, i) => (
-                            <MenuItem
-                              key={item}
-                              disabled={i === 2}
-                              selected={i === selectedIndex}
-                              onClick={(e) => handleMenuItemClick(e, i)}
-                            >
-                              {item}
-                            </MenuItem>
-                          ))}
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </div>
-                </Grow>
-              )}
-            </Popper>
-          </div>
-        </Box>
-      ),
+  ];
+
+  const pengajuanSeminarTable = useMaterialReactTable({
+    columns: pengajuanSeminarColumns,
+    data: seminarProposalResponseData?.data ?? [],
+    enableGlobalFilter: false,
+    enableSorting: false,
+    enableColumnFilters: false,
+    state: {
+      isLoading: seminarProposalRequestLoading,
     },
-  ]);
+  });
 
   return (
     <>
@@ -206,17 +214,15 @@ export default function SeminarProposal() {
                 onClick={handleOpenBimbingan}
                 sx={{ borderRadius: 5, marginRight: 1, marginBottom: 1 }}
                 color="info"
-                positionActionsColumn="last"
               >
                 Bimbingan
               </Button>
               <Button
                 variant="contained"
                 endIcon={<AddIcon />}
-                onClick={handleOpenProposal}
+                onClick={handleClickOpen}
                 sx={{ borderRadius: 5, color: "black", marginBottom: 1 }}
                 color="inherit"
-                positionActionsColumn="last"
               >
                 Ajukan
               </Button>
@@ -225,10 +231,9 @@ export default function SeminarProposal() {
               fullScreen={fullScreen}
               open={openBimbingan}
               onClose={handleCloseBimbingan}
-              aria-labelledby="responsive-dialog-title"
             >
-              <DialogTitle id="responsive-dialog-title" align="center">
-                {"Formulir Bimbingan untuk Seminar Proposal"}
+              <DialogTitle align="center">
+                Formulir Bimbingan untuk Seminar Proposal
               </DialogTitle>
               <DialogContent>
                 <Box
@@ -267,90 +272,31 @@ export default function SeminarProposal() {
                 </Button>
               </DialogActions>
             </Dialog>
-            <Dialog
-              fullScreen={fullScreen}
-              open={openProposal}
-              onClose={handleCloseProposal}
-              aria-labelledby="responsive-dialog-title"
-            >
-              <DialogTitle id="responsive-dialog-title" align="center">
-                {"Formulir Proposal"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>Draft Proposal</DialogContentText>
-                <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-                <DialogContentText>Dokumen Power Point</DialogContentText>
-                <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-                <DialogContentText>
-                  Dokumen Persetujuan Proposal
-                </DialogContentText>
-                <Button
-                  component="label"
-                  role="undefined"
-                  variant="outlined"
-                  tabIndex={-1}
-                >
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  autoFocus
-                  variant="contained"
-                  onClick={handleCloseProposal}
-                >
-                  SIMPAN
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <div>
-              <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
-                Bimbingan
-              </Typography>
-              <MaterialReactTable
-                columns={columns_bimbingan}
-                data={data_bimbingan}
-                enableFacetedValues
-                initialState={{
-                  showColumnFilter: true,
-                  showGlobalFilter: true,
-                }}
-                positionGlobalFilter="left"
-              ></MaterialReactTable>
-            </div>
-
-            <div>
-              <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
-                Pengajuan Seminar
-              </Typography>
-              <MaterialReactTable
-                columns={columns_pengajuan_seminar}
-                data={data_pengajuan_seminar}
-                enableFacetedValues
-                initialState={{
-                  showColumnFilter: true,
-                  showGlobalFilter: true,
-                }}
-                positionGlobalFilter="left"
-              ></MaterialReactTable>
-            </div>
+            <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
+              Bimbingan
+            </Typography>
+            <MaterialReactTable
+              columns={columns_bimbingan}
+              data={data_bimbingan}
+              enableFacetedValues
+              initialState={{
+                showColumnFilter: true,
+                showGlobalFilter: true,
+              }}
+              positionGlobalFilter="left"
+            ></MaterialReactTable>
+            <Typography sx={{ marginTop: 5, fontWeight: "bold" }}>
+              Pengajuan Seminar
+            </Typography>
+            <MaterialReactTable table={pengajuanSeminarTable} />
           </Grid>
         </Grid>
       </Box>
+      <AjukanSeminarProposalDialog
+        open={ajukanSeminarProposalDialogOpen}
+        onClose={handleAjukanSeminarProposalDialogClose}
+        onSubmit={handleAjukanSeminarProposalDialogSubmit}
+      />
     </>
   );
 }
