@@ -10,6 +10,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Fab from "@mui/material/Fab";
 
+import backgroundImage from "./image/bg1.jpeg";
+
 import { Link as RouterLink } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -77,104 +79,115 @@ function ResponsiveDrawer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", backgroundImage: "public\bg2.jpeg" }}>
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Sistem Informasi Tugas Akhir
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-        style={{ backgroundImage: "url:/bg1.jpeg" }}
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onTransitionEnd={handleDrawerTransitionEnd}
-          onClose={handleDrawerClose}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
+    <div
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        color: "white",
+      }}
+    >
+      <Box sx={{ display: "flex" }}>
+        <AppBar
+          position="fixed"
           sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
           }}
         >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
+          <Toolbar>
+            <Typography variant="h6" noWrap component="div">
+              Sistem Informasi Tugas Akhir
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+          style={{ backgroundImage: "url:/bg1.jpeg" }}
         >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Toolbar />
-        <Typography margin={5} variant="h4" fontWeight={"bold"}>
-          Mahasiswa
-        </Typography>
-        <Typography paragraph align="justify" width={700} height={100}>
-          Sistem informasi tugas akhir untuk mahasiswa digunakan untuk mengatur
-          setiap proses pengerjaan tugas akhir mahasiswa, di awali dengan
-          pengajuan judul penelitian, seminar literatur, bimbingan dengan dosen
-          pembimbing, seminar pra proposal, seminar proposal, seminar proyek,
-          seminar hasil, dan tahap terakhir yaitu sidang meja hijau.
-        </Typography>
-        <Typography margin={10}>
-          <Fab
-            sx={{ width: 250, height: 40 }}
-            variant="extended"
-            color="primary"
-            size="medium"
-            component={RouterLink}
-            to="mahasiswa"
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onTransitionEnd={handleDrawerTransitionEnd}
+            onClose={handleDrawerClose}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
           >
-            Mahasiswa
-          </Fab>
-        </Typography>
-        <Typography
-          paragraph
-          variant="h6"
-          width={450}
-          height={100}
-          marginTop={21}
-          fontWeight={"bold"}
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+          }}
         >
-          Program Studi Magister Teknik Informatika Fakultas Ilmu Komputer dan
-          Teknologi Informasi Universitas Sumatera Utara
-        </Typography>
+          <Toolbar />
+          <Typography margin={5} variant="h4" fontWeight={"bold"}>
+            Mahasiswa
+          </Typography>
+          <Typography paragraph align="justify" width={700} height={100}>
+            Sistem informasi tugas akhir untuk mahasiswa digunakan untuk
+            mengatur setiap proses pengerjaan tugas akhir mahasiswa, di awali
+            dengan pengajuan judul penelitian, seminar literatur, bimbingan
+            dengan dosen pembimbing, seminar pra proposal, seminar proposal,
+            seminar proyek, seminar hasil, dan tahap terakhir yaitu sidang meja
+            hijau.
+          </Typography>
+          <Typography margin={10}>
+            <Fab
+              sx={{ width: 250, height: 40 }}
+              variant="extended"
+              color="primary"
+              size="medium"
+              component={RouterLink}
+              to="mahasiswa"
+            >
+              Mahasiswa
+            </Fab>
+          </Typography>
+          <Typography
+            paragraph
+            variant="h6"
+            width={450}
+            height={100}
+            marginTop={21}
+            fontWeight={"bold"}
+          >
+            Program Studi Magister Teknik Informatika Fakultas Ilmu Komputer dan
+            Teknologi Informasi Universitas Sumatera Utara
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 }
 
