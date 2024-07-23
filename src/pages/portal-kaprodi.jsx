@@ -50,7 +50,7 @@ function ResponsiveDrawer(props) {
           Dosen
           </MenuItem>
           <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="#" >
-          Kepala Program Studi
+          Ketua Program Studi
           </MenuItem>
           <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/portal-admin">
           Admin/Pegawai
@@ -125,7 +125,7 @@ function ResponsiveDrawer(props) {
       >
         <Toolbar />
         <Typography margin={5} variant='h4' fontWeight={'bold'}>
-          Kepala Program Studi
+          Ketua Program Studi
         </Typography>
         <Typography paragraph align='justify' width={700} height={100}>
         Sistem informasi tugas akhir untuk kepala program studi digunakan untuk 
@@ -143,7 +143,7 @@ function ResponsiveDrawer(props) {
             component={RouterLink}
             to="/kaprodi"
           >
-            Kepala Program Studi
+            Ketua Program Studi
           </Fab>
         </Typography>
         <Typography paragraph variant='h6' width={450} height={100} marginTop={21} fontWeight={'bold'}>

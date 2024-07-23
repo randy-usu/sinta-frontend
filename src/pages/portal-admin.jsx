@@ -50,7 +50,7 @@ function ResponsiveDrawer(props) {
           Dosen
           </MenuItem>
           <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="/portal-kaprodi" >
-          Kepala Program Studi
+          Ketua Program Studi
           </MenuItem>
           <MenuItem sx={{ color: 'black', fontWeight: 'bold' }} component={RouterLink} to="#">
           Admin/Pegawai
