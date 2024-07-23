@@ -177,7 +177,7 @@ export default function PengajuanJudul() {
       Cell: ({ cell }) => cell.getValue().toLocaleDateString("id"),
     },
     {
-      accessorKey: "pic",
+      accessorKey: "pic.name",
       header: "Nama PIC",
       filterVariant: "text",
     },
@@ -185,7 +185,7 @@ export default function PengajuanJudul() {
 
   const table = useMaterialReactTable({
     columns,
-    data: pengajuanJudulResponseData?.data ?? [],
+    data:  pengajuanJudulResponseData?.data ?? [],
     enableGlobalFilter: false,
     enableSorting: false,
     enableColumnFilters: false,

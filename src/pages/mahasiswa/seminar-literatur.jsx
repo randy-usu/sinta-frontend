@@ -157,7 +157,7 @@ export default function SeminarLiteratur() {
       Cell: ({ cell }) => cell.getValue().toLocaleDateString("id"),
     },
     {
-      accessorKey: "pic",
+      accessorKey: "pic.name",
       header: "Nama PIC",
       filterVariant: "text",
     },
