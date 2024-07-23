@@ -58,7 +58,7 @@ export const DosenSignUpForm = () => (
         Daftar
       </Button>
       <Container sx={{ mt: 2 }}>
-        <Link component={RouterLink} to="..">
+        <Link component={RouterLink} to="/dosen">
           Login
         </Link>
       </Container>

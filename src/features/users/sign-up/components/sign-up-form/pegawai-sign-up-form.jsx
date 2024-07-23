@@ -1,5 +1,5 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Link, Link as RouterLink } from "react-router-dom";
 
 export const PegawaiSignUpForm = () => (
   <>
@@ -57,6 +57,11 @@ export const PegawaiSignUpForm = () => (
       >
         Daftar
       </Button>
+      <Container sx={{ mt: 2 }}>
+        <Link component={RouterLink} to="/pegawai">
+          Login
+        </Link>
+      </Container>
     </Box>
   </>
 );

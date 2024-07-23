@@ -167,7 +167,7 @@ function ResponsiveDrawer(props) {
               color="primary"
               size="medium"
               component={RouterLink}
-              to="/admin"
+              to="/pegawai"
             >
               Admin/Pegawai
             </Fab>

@@ -2,9 +2,13 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Container, Link, TextField, Typography } from "@mui/material";
 import useAxios from "axios-hooks";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../../auth-context";
+import { useContext } from "react";
 
 export const MahasiswaSignInForm = () => {
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+
   const [{ loading: authenticationLoading }, authenticateMahasiswa] = useAxios(
     {
       url: "mahasiswa/login",
@@ -22,7 +26,11 @@ export const MahasiswaSignInForm = () => {
       "mahasiswa_token",
       authenticationResponse.data.data.token
     );
-    navigate("dashboard");
+    auth.setUser({
+      type: "mahasiswa",
+      user: authenticationResponse.data.data.user,
+    });
+    navigate("dashboard", { replace: true });
   };
 
   return (

@@ -69,6 +69,8 @@ import {
 } from "./pages/pegawai";
 import { configure } from "axios-hooks";
 import Axios from "axios";
+import { AuthProvider } from "./auth-context";
+import { RequireAuth } from "./require-auth";
 
 const DOSEN_NAVS = [
   { text: "Dashboard", Icon: SpaceDashboardIcon, to: "/dosen/dashboard" },
@@ -232,225 +234,237 @@ const router = createBrowserRouter([
     Component: PortalAdmin,
   },
   {
-    path: "mahasiswa",
+    path: "/",
+    element: (
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+    ),
     children: [
       {
-        index: true,
-        Component: MahasiswaSignIn,
-      },
-      {
-        path: "sign-up",
-        Component: MahasiswaSignUp,
-      },
-      {
-        element: (
-          <PageContainer navigations={MHS_NAVS}>
-            <Outlet />
-          </PageContainer>
-        ),
+        path: "mahasiswa",
         children: [
           {
-            path: "sit-in",
-            Component: SitIn,
+            index: true,
+            Component: MahasiswaSignIn,
           },
           {
-            path: "seminar-literatur",
-            Component: SeminarLiteratur,
+            path: "sign-up",
+            Component: MahasiswaSignUp,
           },
           {
-            path: "pengajuan-judul",
-            Component: PengajuanJudul,
-          },
-          {
-            path: "seminar-pra-proposal",
-            Component: SeminarPraProposal,
-          },
-          {
-            path: "seminar-proposal",
-            Component: SeminarProposal,
-          },
-          {
-            path: "seminar-proyek",
-            Component: SeminarProyek,
-          },
-          {
-            path: "seminar-hasil",
-            Component: SeminarHasil,
-          },
-          {
-            path: "sidang-meja-hijau",
-            Component: SidangMejaHijau,
-          },
-          {
-            path: "dashboard",
-            Component: MahasiswaDashboard,
-          },
-          {
-            path: "*",
-            element: <></>,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: "dosen",
-    children: [
-      {
-        index: true,
-        Component: DosenSignIn,
-      },
-      {
-        path: "sign-up",
-        Component: DosenSignUp,
-      },
-      {
-        element: (
-          <PageContainer navigations={DOSEN_NAVS}>
-            <Outlet />
-          </PageContainer>
-        ),
-        children: [
-          {
-            path: "dashboard",
-            Component: Dashboard,
-          },
-          {
-            path: "mahasiswa-bimbingan",
+            element: (
+              <RequireAuth>
+                <PageContainer navigations={MHS_NAVS}>
+                  <Outlet />
+                </PageContainer>
+              </RequireAuth>
+            ),
             children: [
               {
-                index: true,
-                Component: MahasiswaBimbingan,
+                path: "sit-in",
+                Component: SitIn,
+              },
+              {
+                path: "seminar-literatur",
+                Component: SeminarLiteratur,
+              },
+              {
+                path: "pengajuan-judul",
+                Component: PengajuanJudul,
+              },
+              {
+                path: "seminar-pra-proposal",
+                Component: SeminarPraProposal,
+              },
+              {
+                path: "seminar-proposal",
+                Component: SeminarProposal,
+              },
+              {
+                path: "seminar-proyek",
+                Component: SeminarProyek,
+              },
+              {
+                path: "seminar-hasil",
+                Component: SeminarHasil,
+              },
+              {
+                path: "sidang-meja-hijau",
+                Component: SidangMejaHijau,
+              },
+              {
+                path: "dashboard",
+                Component: MahasiswaDashboard,
               },
               {
                 path: "*",
-                Component: MahasiswaBimbinganDetail,
+                element: <></>,
               },
             ],
           },
+        ],
+      },
+      {
+        path: "dosen",
+        children: [
           {
-            path: "mahasiswa-ujian",
-            Component: MahasiswaUjian,
+            index: true,
+            Component: DosenSignIn,
           },
           {
-            path: "usulan-seminar-proyek",
-            Component: UsulanSeminarProyek,
+            path: "sign-up",
+            Component: DosenSignUp,
           },
           {
-            path: "*",
-            element: <></>,
+            element: (
+              <PageContainer navigations={DOSEN_NAVS}>
+                <Outlet />
+              </PageContainer>
+            ),
+            children: [
+              {
+                path: "dashboard",
+                Component: Dashboard,
+              },
+              {
+                path: "mahasiswa-bimbingan",
+                children: [
+                  {
+                    index: true,
+                    Component: MahasiswaBimbingan,
+                  },
+                  {
+                    path: "*",
+                    Component: MahasiswaBimbinganDetail,
+                  },
+                ],
+              },
+              {
+                path: "mahasiswa-ujian",
+                Component: MahasiswaUjian,
+              },
+              {
+                path: "usulan-seminar-proyek",
+                Component: UsulanSeminarProyek,
+              },
+              {
+                path: "*",
+                element: <></>,
+              },
+            ],
           },
         ],
       },
-    ],
-  },
-  {
-    path: "kaprodi",
-    children: [
       {
-        index: true,
-        Component: KaprodiSignIn,
-      },
-      {
-        path: "sign-up",
-        Component: KaprodiSignUp,
-      },
-      {
-        element: (
-          <PageContainer navigations={KAPRODI_NAVS}>
-            <Outlet />
-          </PageContainer>
-        ),
+        path: "kaprodi",
         children: [
           {
-            path: "dashboard",
-            Component: KaprodiDashboard,
+            index: true,
+            Component: KaprodiSignIn,
           },
           {
-            path: "sit-in",
-            Component: KaprodiSitIn,
+            path: "sign-up",
+            Component: KaprodiSignUp,
           },
           {
-            path: "seminar-literatur",
-            Component: KaprodiSeminarLiteratur,
-          },
-          {
-            path: "pengajuan-judul",
-            Component: KaprodiPengajuanJudul,
-          },
-          {
-            path: "seminar-pra-proposal",
-            Component: KaprodiSeminarPraProposal,
-          },
-          {
-            path: "seminar-proposal",
-            Component: KaprodiSeminarProposal,
-          },
-          {
-            path: "seminar-hasil",
-            Component: KaprodiSeminarHasil,
-          },
-          {
-            path: "sidang-meja-hijau",
-            Component: KaprodiSidangMejaHijau,
-          },
-          {
-            path: "*",
-            element: <></>,
+            element: (
+              <PageContainer navigations={KAPRODI_NAVS}>
+                <Outlet />
+              </PageContainer>
+            ),
+            children: [
+              {
+                path: "dashboard",
+                Component: KaprodiDashboard,
+              },
+              {
+                path: "sit-in",
+                Component: KaprodiSitIn,
+              },
+              {
+                path: "seminar-literatur",
+                Component: KaprodiSeminarLiteratur,
+              },
+              {
+                path: "pengajuan-judul",
+                Component: KaprodiPengajuanJudul,
+              },
+              {
+                path: "seminar-pra-proposal",
+                Component: KaprodiSeminarPraProposal,
+              },
+              {
+                path: "seminar-proposal",
+                Component: KaprodiSeminarProposal,
+              },
+              {
+                path: "seminar-hasil",
+                Component: KaprodiSeminarHasil,
+              },
+              {
+                path: "sidang-meja-hijau",
+                Component: KaprodiSidangMejaHijau,
+              },
+              {
+                path: "*",
+                element: <></>,
+              },
+            ],
           },
         ],
       },
-    ],
-  },
-  {
-    path: "pegawai",
-    children: [
       {
-        index: true,
-        Component: PegawaiSignIn,
-      },
-      {
-        path: "sign-up",
-        Component: PegawaiSignUp,
-      },
-      {
-        element: (
-          <PageContainer navigations={PEGAWAI_NAVS}>
-            <Outlet />
-          </PageContainer>
-        ),
+        path: "pegawai",
         children: [
           {
-            path: "dashboard",
-            Component: PegawaiDashboard,
-          },
-          // {
-          //   path: "seminar-proyek",
-          //   Component: PegawaiSeminarProyek,
-          // },
-          {
-            path: "pengajuan-judul",
-            Component: PegawaiPengajuanJudul,
+            index: true,
+            Component: PegawaiSignIn,
           },
           {
-            path: "seminar-pra-proposal",
-            Component: PegawaiSeminarPraProposal,
+            path: "sign-up",
+            Component: PegawaiSignUp,
           },
-          // {
-          //   path: "seminar-proposal",
-          //   Component: PegawaiSeminarProposal,
-          // },
-          // {
-          //   path: "seminar-hasil",
-          //   Component: PegawaiSeminarHasil,
-          // },
-          // {
-          //   path: "sidang-meja-hijau",
-          //   Component: PegawaiSidangMejaHijau,
-          // },
           {
-            path: "*",
-            element: <></>,
+            element: (
+              <PageContainer navigations={PEGAWAI_NAVS}>
+                <Outlet />
+              </PageContainer>
+            ),
+            children: [
+              {
+                path: "dashboard",
+                Component: PegawaiDashboard,
+              },
+              // {
+              //   path: "seminar-proyek",
+              //   Component: PegawaiSeminarProyek,
+              // },
+              {
+                path: "pengajuan-judul",
+                Component: PegawaiPengajuanJudul,
+              },
+              {
+                path: "seminar-pra-proposal",
+                Component: PegawaiSeminarPraProposal,
+              },
+              // {
+              //   path: "seminar-proposal",
+              //   Component: PegawaiSeminarProposal,
+              // },
+              // {
+              //   path: "seminar-hasil",
+              //   Component: PegawaiSeminarHasil,
+              // },
+              // {
+              //   path: "sidang-meja-hijau",
+              //   Component: PegawaiSidangMejaHijau,
+              // },
+              {
+                path: "*",
+                element: <></>,
+              },
+            ],
           },
         ],
       },

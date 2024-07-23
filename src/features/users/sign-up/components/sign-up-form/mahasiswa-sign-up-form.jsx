@@ -1,10 +1,15 @@
 import { LoadingButton } from "@mui/lab";
 import { Box, Container, Link, TextField, Typography } from "@mui/material";
 import useAxios from "axios-hooks";
+import { useContext } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../../../../../auth-context";
 
 export const MahasiswaSignUpForm = () => {
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+
   const [{ loading: registrationLoading }, registerMahasiswa] = useAxios(
     {
       url: "mahasiswa/register",
@@ -22,6 +27,10 @@ export const MahasiswaSignUpForm = () => {
       "mahasiswa_token",
       registrationResponse.data.data.token
     );
+    auth.setUser({
+      type: "mahasiswa",
+      user: registrationResponse.data.data.user,
+    });
     navigate("/mahasiswa/dashboard");
   };
 
@@ -58,21 +67,21 @@ export const MahasiswaSignUpForm = () => {
           size="small"
           required
           fullWidth
-          name="password"
-          label="Kata Sandi"
-          type="password"
-          id="password"
-          autoComplete="new-password"
+          name="email"
+          label="Alamat Surel"
+          type="email"
+          id="email"
+          autoComplete="email"
         />
         <TextField
           margin="dense"
           size="small"
           required
           fullWidth
-          name="password-confirmation"
-          label="Konfirmasi Kata Sandi"
+          name="password"
+          label="Kata Sandi"
           type="password"
-          id="password-confirmation"
+          id="password"
           autoComplete="new-password"
         />
         <LoadingButton
@@ -84,7 +93,7 @@ export const MahasiswaSignUpForm = () => {
           Daftar
         </LoadingButton>
         <Container sx={{ mt: 2 }}>
-          <Link component={RouterLink} to="..">
+          <Link component={RouterLink} to="/mahasiswa">
             Login
           </Link>
         </Container>
